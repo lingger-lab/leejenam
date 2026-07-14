@@ -40,6 +40,11 @@ body {
   .print-hidden { display: none !important; }
 }
 
+/* 고정 헤더 대응 — 앵커 스크롤 시 헤더에 가리지 않도록 */
+section {
+  scroll-margin-top: 3.5rem;
+}
+
 /* 스크롤 부드럽게 */
 html {
   scroll-behavior: smooth;

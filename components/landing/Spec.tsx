@@ -30,15 +30,6 @@ export function Spec() {
           </tbody>
         </table>
 
-        {/* 푸터 */}
-        <div className="mt-14 pt-8 border-t border-rule text-center text-xs text-soft font-plex space-y-1.5">
-          <p>농업회사법인 제이엔 · 대표 이제남</p>
-          <p>
-            <a href="/privacy" className="underline underline-offset-2 hover:text-ink transition-colors">
-              개인정보처리방침
-            </a>
-          </p>
-        </div>
       </div>
     </section>
   );

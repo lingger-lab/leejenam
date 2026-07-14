@@ -24,6 +24,7 @@ const pen = Nanum_Pen_Script({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ijenam.vercel.app"),
   title: "이제남 — 이제, 오늘 담갔습니다",
   description:
     "주문받고 담그는 과일청. 라벨에 드시는 분 이름을 새깁니다. 복숭아청·자두청·블루베리청 26,000원.",
