@@ -128,7 +128,7 @@ export function Hero() {
       {/* CTA */}
       <div className="text-center pb-8 pt-3">
         <a
-          href="#shop"
+          href="/checkout"
           className="inline-block font-plex text-sm font-medium bg-ink text-paper
                      px-6 py-3 hover:bg-seal transition-colors"
         >
