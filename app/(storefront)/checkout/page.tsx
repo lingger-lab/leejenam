@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   getCart,
@@ -26,6 +26,7 @@ type FormErrors = Partial<Record<keyof FormData | 'engrave' | 'cart', string>>;
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const errorRef = useRef<HTMLDivElement>(null);
 
   const [items, setItems] = useState<CartItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -57,6 +58,13 @@ export default function CheckoutPage() {
     setHydrated(true);
     track('checkout_start');
   }, [router]);
+
+  /* 에러 발생 시 스크롤 */
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [errors]);
 
   const updateField = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -104,6 +112,9 @@ export default function CheckoutPage() {
     return errs;
   };
 
+  /* 에러 메시지 모음 */
+  const allErrorMessages = Object.values(errors).filter(Boolean) as string[];
+
   /* 제출 */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -115,6 +126,7 @@ export default function CheckoutPage() {
     }
 
     setSubmitting(true);
+    setErrors({});
 
     try {
       const res = await fetch('/api/orders', {
@@ -194,10 +206,7 @@ export default function CheckoutPage() {
         {/* ── 폼 ── */}
         <form onSubmit={handleSubmit} className="space-y-7">
           {/* 주문자 이름 */}
-          <Field
-            label="주문자 이름"
-            error={errors.buyerName}
-          >
+          <Field label="주문자 이름" error={errors.buyerName}>
             <input
               type="text"
               value={form.buyerName}
@@ -208,10 +217,7 @@ export default function CheckoutPage() {
           </Field>
 
           {/* 연락처 */}
-          <Field
-            label="연락처"
-            error={errors.phone}
-          >
+          <Field label="연락처" error={errors.phone}>
             <input
               type="tel"
               value={form.phone}
@@ -222,10 +228,7 @@ export default function CheckoutPage() {
           </Field>
 
           {/* 주소 */}
-          <Field
-            label="주소"
-            error={errors.zipcode}
-          >
+          <Field label="주소" error={errors.zipcode}>
             <input
               type="text"
               value={form.zipcode}
@@ -300,15 +303,20 @@ export default function CheckoutPage() {
             </span>
           </label>
 
-          {/* 에러 (카트/각인) */}
-          {(errors.engrave || errors.cart) && (
-            <div className="border border-seal bg-seal/5 p-4">
-              {errors.engrave && (
-                <p className="font-plex text-sm text-seal">{errors.engrave}</p>
-              )}
-              {errors.cart && (
-                <p className="font-plex text-sm text-seal">{errors.cart}</p>
-              )}
+          {/* ── 에러 통합 표시 (버튼 바로 위) ── */}
+          {allErrorMessages.length > 0 && (
+            <div
+              ref={errorRef}
+              className="border-2 border-seal bg-seal/10 p-4 space-y-1"
+            >
+              <p className="font-plex text-sm font-bold text-seal">
+                입력을 확인해주세요
+              </p>
+              {allErrorMessages.map((msg, i) => (
+                <p key={i} className="font-plex text-sm text-seal">
+                  · {msg}
+                </p>
+              ))}
             </div>
           )}
 
