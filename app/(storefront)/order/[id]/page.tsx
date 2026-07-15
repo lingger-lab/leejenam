@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase';
 import { isGhost } from '@/lib/config';
 import { track } from '@/lib/events';
 import { GhostMessage } from '@/components/GhostMessage';
+import { PRODUCTS } from '@/lib/products';
 
 type OrderData = {
   id: string;
@@ -73,19 +73,31 @@ export default function OrderCompletePage() {
   useEffect(() => {
     async function fetchOrder() {
       try {
-        const supabase = createClient();
-        const { data, error: dbError } = await supabase
-          .from('orders')
-          .select('id, order_no, buyer_name, items')
-          .eq('id', params.id)
-          .single();
-
-        if (dbError || !data) {
+        const res = await fetch(`/api/orders/${params.id}`);
+        if (!res.ok) {
           setError('주문 정보를 찾을 수 없습니다.');
           return;
         }
 
-        setOrder(data as OrderData);
+        const data = await res.json();
+        const mapped: OrderData = {
+          id: data.id,
+          order_no: data.order_no,
+          buyer_name: data.buyer_name,
+          items: (data.items ?? []).map(
+            (item: { product_id: string; engrave_name: string; quantity: number; unit_price: number }) => {
+              const product = PRODUCTS.find((p) => p.id === item.product_id);
+              return {
+                productName: product?.name ?? item.product_id,
+                engraveName: item.engrave_name,
+                quantity: item.quantity,
+                price: item.unit_price,
+              };
+            },
+          ),
+        };
+
+        setOrder(mapped);
       } catch {
         setError('주문 정보를 불러오지 못했습니다.');
       } finally {
