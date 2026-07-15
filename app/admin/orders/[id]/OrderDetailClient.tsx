@@ -45,6 +45,7 @@ type Order = {
   payment_mode: string;
   status: string;
   subscribe_intent: boolean;
+  sms_consent: boolean;
   survey_who: string | null;
   admin_memo: string | null;
   contacted_at: string | null;
@@ -126,9 +127,12 @@ export default function OrderDetailClient() {
             <p className="text-lg font-bold">{order.total.toLocaleString()}원</p>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-3">
             {order.subscribe_intent && (
               <span className="text-xs bg-seal/10 text-seal px-2 py-1">정기구독 의향</span>
+            )}
+            {order.sms_consent && (
+              <span className="text-xs bg-green-50 text-green-700 px-2 py-1">SMS 수신 동의</span>
             )}
             {order.survey_who && (
               <span className="text-xs bg-ink/10 text-ink px-2 py-1">

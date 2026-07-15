@@ -5,19 +5,25 @@ import { createServerClient } from '@/lib/supabase-server';
 async function getMetrics() {
   const supabase = await createServerClient();
 
-  const [verdictRes, distributionRes, ordersToday, ordersTotal] = await Promise.all([
+  const [verdictRes, distributionRes, ordersToday, ordersTotal, smsConsentCount, subscribeCount] = await Promise.all([
     supabase.from('verdict').select('*').single(),
     supabase.from('product_distribution').select('*'),
     supabase.from('orders').select('id', { count: 'exact' })
       .gte('created_at', new Date().toISOString().split('T')[0]),
     supabase.from('orders').select('id', { count: 'exact' }),
+    supabase.from('orders').select('id', { count: 'exact' }).eq('sms_consent', true),
+    supabase.from('orders').select('id', { count: 'exact' }).eq('subscribe_intent', true),
   ]);
+
+  const total = ordersTotal.count ?? 0;
 
   return {
     verdict: verdictRes.data,
     distribution: distributionRes.data ?? [],
     todayOrders: ordersToday.count ?? 0,
-    totalOrders: ordersTotal.count ?? 0,
+    totalOrders: total,
+    smsRate: total > 0 ? Math.round(((smsConsentCount.count ?? 0) / total) * 100) : 0,
+    subscribeRate: total > 0 ? Math.round(((subscribeCount.count ?? 0) / total) * 100) : 0,
   };
 }
 
@@ -66,6 +72,18 @@ export default async function AdminDashboard() {
             metrics?.verdict?.cac_estimate != null &&
             metrics.verdict.cac_estimate > 20000
           }
+        />
+      </div>
+
+      {/* 고객 의향 지표 */}
+      <div className="grid grid-cols-2 gap-4 mb-8">
+        <MetricCard
+          label="구독 의향률"
+          value={metrics?.subscribeRate != null ? `${metrics.subscribeRate}%` : '-'}
+        />
+        <MetricCard
+          label="SMS 동의율"
+          value={metrics?.smsRate != null ? `${metrics.smsRate}%` : '-'}
         />
       </div>
 

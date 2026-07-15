@@ -9,7 +9,7 @@ async function getOrders() {
     .from('orders')
     .select(`
       id, order_no, buyer_name, buyer_phone, status, payment_mode,
-      total, subscribe_intent, contacted_at, created_at,
+      total, subscribe_intent, sms_consent, contacted_at, created_at,
       order_items ( engrave_name, product_id )
     `)
     .order('created_at', { ascending: false })
@@ -52,6 +52,7 @@ export default async function OrdersPage() {
                 <th className="py-3 pr-3">상태</th>
                 <th className="py-3 pr-3">금액</th>
                 <th className="py-3 pr-3">구독</th>
+                <th className="py-3 pr-3">SMS</th>
                 <th className="py-3 pr-3">연락</th>
                 <th className="py-3">일시</th>
               </tr>
@@ -81,6 +82,9 @@ export default async function OrdersPage() {
                     <td className="py-3 pr-3">{order.total?.toLocaleString()}원</td>
                     <td className="py-3 pr-3">
                       {order.subscribe_intent ? '의향' : '-'}
+                    </td>
+                    <td className="py-3 pr-3">
+                      {order.sms_consent ? '동의' : '-'}
                     </td>
                     <td className="py-3 pr-3">
                       {order.contacted_at ? (
