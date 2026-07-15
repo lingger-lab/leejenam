@@ -127,6 +127,17 @@ export function Shop() {
             전체 상품 보기
           </Link>
         </div>
+
+        <p className="mt-6 text-center font-plex text-sm text-soft leading-relaxed">
+          온라인이 불편하시면, 전화로 주문하셔도 됩니다.
+          <br />
+          <a
+            href="tel:010-8339-5585"
+            className="text-seal text-base font-medium hover:underline"
+          >
+            010-8339-5585
+          </a>
+        </p>
       </div>
     </section>
   );

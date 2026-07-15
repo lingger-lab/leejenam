@@ -36,15 +36,31 @@ export function Footer() {
           </Link>
         </div>
 
+        {/* 전화 주문 안내 */}
+        <p className="font-plex text-sm text-paper/70 leading-relaxed mb-2">
+          온라인이 불편하시면, 전화로 주문하셔도 됩니다.
+        </p>
+        <a
+          href="tel:010-8339-5585"
+          className="inline-block font-plex text-base text-gold font-medium
+                     hover:underline underline-offset-2"
+        >
+          010-8339-5585
+        </a>
+
         {/* 구분선 */}
-        <div className="w-8 h-px bg-paper/20 mx-auto mb-8" />
+        <div className="w-8 h-px bg-paper/20 mx-auto my-8" />
 
         {/* 사업자 정보 */}
         <div className="font-plex text-xs text-paper/50 leading-loose space-y-1">
           <p>농업회사법인(주)제이엔 · 대표 이제남</p>
           <p>사업자등록번호 587-87-03728</p>
           <p>경상남도 창원시 마산합포구 구산면 옥곡1길 77</p>
-          <p>전화번호: 010-8339-5585</p>
+          <p>
+            <a href="tel:010-8339-5585" className="hover:text-paper/70 transition-colors">
+              010-8339-5585
+            </a>
+          </p>
         </div>
       </div>
     </footer>
