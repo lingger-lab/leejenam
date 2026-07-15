@@ -185,6 +185,42 @@ export default function StoryPage() {
           </div>
         </section>
 
+        {/* Block 7.5 — 생산 한계 */}
+        <section className="py-12">
+          <h2 className="font-batang font-bold text-xl text-seal mb-6">
+            청 하나에 백 병.
+          </h2>
+          <div className="font-batang text-base text-ink leading-loose space-y-4">
+            <p>
+              복숭아청 백 병.
+              <br />
+              자두청 백 병.
+              <br />
+              블루베리청 백 병.
+            </p>
+            <p>
+              더 만들 수도 있습니다.
+              <br />
+              사람을 쓰고, 미리 잔뜩 담가두면 됩니다.
+            </p>
+            <p>
+              그런데 그러면
+              <br />
+              제 손으로 담근 게 아닙니다.
+            </p>
+            <p>
+              백 병은 제가 혼자
+              <br />
+              담그고, 이름까지 새길 수 있는
+              <br />
+              최대입니다.
+            </p>
+            <p>
+              딱 거기까지만 하겠습니다.
+            </p>
+          </div>
+        </section>
+
         {/* Block 8 — closing */}
         <section className="py-16 text-center">
           <h2 className="font-batang font-bold text-2xl text-seal leading-relaxed mb-8">
