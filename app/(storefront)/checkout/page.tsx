@@ -104,6 +104,7 @@ function CheckoutPage() {
     const stored = getStoredName();
     if (stored) {
       setNameInputs({ peach: stored, plum: stored, berry: stored });
+      setForm((prev) => ({ ...prev, buyerName: stored }));
     }
 
     const productParam = searchParams.get('product') as ProductId | null;
