@@ -39,7 +39,7 @@ export default async function Image() {
           <div
             style={{
               fontFamily: 'GowunBatang',
-              fontSize: 72,
+              fontSize: 120,
               fontWeight: 700,
               color: '#1B1917',
               marginBottom: 16,
@@ -51,7 +51,7 @@ export default async function Image() {
           <div
             style={{
               fontFamily: 'GowunBatang',
-              fontSize: 28,
+              fontSize: 36,
               color: '#7A2E22',
               marginBottom: 40,
             }}
@@ -71,7 +71,7 @@ export default async function Image() {
           <div
             style={{
               fontFamily: 'GowunBatang',
-              fontSize: 20,
+              fontSize: 26,
               color: '#5E564C',
             }}
           >
