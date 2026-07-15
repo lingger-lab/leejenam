@@ -30,6 +30,7 @@ export default function CheckoutPage() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [total, setTotal] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   const [form, setForm] = useState<FormData>({
     buyerName: '',
@@ -44,21 +45,18 @@ export default function CheckoutPage() {
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  /* 마운트 */
+  /* 마운트 — 카트 로드 + 하이드레이션 완료 */
   useEffect(() => {
-    setItems(getCart());
-    setTotal(getCartTotal());
-    track('checkout_start');
-  }, []);
-
-  /* 카트가 비었으면 */
-  useEffect(() => {
-    if (items.length === 0 && typeof window !== 'undefined') {
-      // 첫 렌더시에는 아직 localStorage를 못 읽었을 수 있으므로 체크
-      const cart = getCart();
-      if (cart.length === 0) return; // 빈 상태 허용 (리다이렉트는 submit에서 검증)
+    const cart = getCart();
+    if (cart.length === 0) {
+      router.replace('/cart');
+      return;
     }
-  }, [items]);
+    setItems(cart);
+    setTotal(getCartTotal());
+    setHydrated(true);
+    track('checkout_start');
+  }, [router]);
 
   const updateField = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -303,26 +301,31 @@ export default function CheckoutPage() {
           </label>
 
           {/* 에러 (카트/각인) */}
-          {errors.engrave && (
-            <p className="font-plex text-sm text-seal">{errors.engrave}</p>
-          )}
-          {errors.cart && (
-            <p className="font-plex text-sm text-seal">{errors.cart}</p>
+          {(errors.engrave || errors.cart) && (
+            <div className="border border-seal bg-seal/5 p-4">
+              {errors.engrave && (
+                <p className="font-plex text-sm text-seal">{errors.engrave}</p>
+              )}
+              {errors.cart && (
+                <p className="font-plex text-sm text-seal">{errors.cart}</p>
+              )}
+            </div>
           )}
 
           {/* 제출 */}
           <button
             type="submit"
-            disabled={submitting}
+            disabled={!hydrated || submitting}
+            style={{ touchAction: 'manipulation' }}
             className="block w-full py-4 bg-ink text-paper text-center
                        font-plex font-medium text-sm tracking-wide
-                       hover:bg-seal transition-colors
+                       active:bg-seal hover:bg-seal transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {submitting ? '접수 중...' : '주문하기'}
+            {!hydrated ? '준비 중...' : submitting ? '접수 중...' : '주문하기'}
           </button>
 
-          <p className="text-center">
+          <p className="text-center pb-6">
             <a
               href="/privacy"
               className="font-plex text-xs text-soft underline underline-offset-2
