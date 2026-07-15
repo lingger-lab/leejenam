@@ -7,7 +7,7 @@ export const isGhost = () => PAYMENT_MODE === 'ghost';
 export const isLive = () => PAYMENT_MODE === 'live';
 
 export const PRICE = 26000;
-export const SHIPPING_FEE = 0;
+export const SHIPPING_FEE = 3000;
 export const DELIVERY_DAYS = '3~4일';
 
 // Hardcoded thresholds - never change these

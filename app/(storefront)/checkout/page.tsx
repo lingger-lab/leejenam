@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { PRODUCTS, type ProductId } from '@/lib/products';
-import { PRICE } from '@/lib/config';
+import { PRICE, SHIPPING_FEE } from '@/lib/config';
 import { validatePhone, validateEngraveName } from '@/lib/validators';
 import { track } from '@/lib/events';
 import { getStoredName } from '@/lib/name';
@@ -37,6 +37,7 @@ type ShippingForm = {
   address2: string;
   memo: string;
   subscribeIntent: boolean;
+  smsConsent: boolean;
   forWhom: 'self' | 'family';
 };
 
@@ -91,12 +92,14 @@ function CheckoutPage() {
     address2: '',
     memo: '문 앞에 놓아주세요',
     subscribeIntent: false,
+    smsConsent: false,
     forWhom: 'self',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const total = orderItems.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = orderItems.reduce((sum, item) => sum + item.price, 0);
+  const total = subtotal + (orderItems.length > 0 ? SHIPPING_FEE : 0);
 
   /* 마운트: 저장된 이름 기입 + 쿼리 파라미터 처리 */
   useEffect(() => {
@@ -264,6 +267,7 @@ function CheckoutPage() {
           address2: form.address2.trim(),
           delivery_memo: form.memo.trim(),
           subscribe_intent: form.subscribeIntent,
+          sms_consent: form.smsConsent,
           survey_who: form.forWhom,
         }),
       });
@@ -406,11 +410,25 @@ function CheckoutPage() {
                   </li>
                 ))}
               </ul>
-              <div className="border-t border-rule mt-4 pt-3 flex justify-between">
-                <span className="font-plex text-sm text-soft">합계</span>
-                <span className="font-batang font-bold text-ink">
-                  {total.toLocaleString()}원
-                </span>
+              <div className="border-t border-rule mt-4 pt-3 space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-plex text-sm text-soft">상품금액</span>
+                  <span className="font-plex text-sm text-ink">
+                    {subtotal.toLocaleString()}원
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-plex text-sm text-soft">배송비</span>
+                  <span className="font-plex text-sm text-ink">
+                    {SHIPPING_FEE.toLocaleString()}원
+                  </span>
+                </div>
+                <div className="flex justify-between pt-2 border-t border-rule">
+                  <span className="font-plex text-sm font-medium text-ink">총액</span>
+                  <span className="font-batang font-bold text-ink">
+                    {total.toLocaleString()}원
+                  </span>
+                </div>
               </div>
             </div>
           )}
@@ -491,15 +509,15 @@ function CheckoutPage() {
             </Field>
 
             <fieldset>
-              <legend className="font-plex text-sm text-soft mb-3">
+              <legend className="font-plex text-base text-soft mb-3">
                 누가 드실 건가요?
               </legend>
-              <div className="flex gap-4">
+              <div className="flex gap-6">
                 {([['self', '본인'], ['family', '가족']] as const).map(
                   ([value, label]) => (
                     <label
                       key={value}
-                      className="flex items-center gap-2 cursor-pointer"
+                      className="flex items-center gap-3 cursor-pointer"
                     >
                       <input
                         type="radio"
@@ -507,9 +525,9 @@ function CheckoutPage() {
                         value={value}
                         checked={form.forWhom === value}
                         onChange={() => updateField('forWhom', value)}
-                        className="accent-seal w-4 h-4"
+                        className="accent-seal w-6 h-6"
                       />
-                      <span className="font-plex text-sm text-ink">
+                      <span className="font-plex text-base text-ink">
                         {label}
                       </span>
                     </label>
@@ -518,18 +536,41 @@ function CheckoutPage() {
               </div>
             </fieldset>
 
+            {/* 구독 의향 */}
+            <div className="border border-rule bg-white-2/50 p-5">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.subscribeIntent}
+                  onChange={(e) => {
+                    updateField('subscribeIntent', e.target.checked);
+                    if (e.target.checked) track('subscribe_intent');
+                  }}
+                  className="accent-seal w-6 h-6 mt-0.5 flex-shrink-0"
+                />
+                <span className="font-plex text-base text-ink leading-relaxed">
+                  정기적으로 받아보고 싶습니다
+                </span>
+              </label>
+              <p className="font-plex text-sm text-soft mt-3 ml-9 leading-relaxed">
+                매달 제철 과일로 담근 청을 보내드립니다.
+                체크해주시면 정기배송이 시작될 때 가장 먼저 안내드리겠습니다.
+              </p>
+            </div>
+
+            {/* SMS 수신 동의 */}
             <label className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
-                checked={form.subscribeIntent}
+                checked={form.smsConsent}
                 onChange={(e) => {
-                  updateField('subscribeIntent', e.target.checked);
-                  if (e.target.checked) track('subscribe_intent');
+                  updateField('smsConsent', e.target.checked);
+                  if (e.target.checked) track('sms_consent');
                 }}
-                className="accent-seal w-4 h-4 mt-0.5"
+                className="accent-seal w-6 h-6 mt-0.5 flex-shrink-0"
               />
-              <span className="font-plex text-sm text-ink leading-relaxed">
-                정기적으로 받아보고 싶습니다
+              <span className="font-plex text-base text-ink leading-relaxed">
+                주문 안내 및 소식을 문자로 받겠습니다
               </span>
             </label>
           </div>

@@ -22,6 +22,7 @@ export type EventType =
   | 'checkout_start'
   | 'order_submit'
   | 'subscribe_intent'
+  | 'sms_consent'
   | 'survey_answer'
   | 'ghost_message_view';
 

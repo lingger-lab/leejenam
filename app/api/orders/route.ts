@@ -20,6 +20,7 @@ interface OrderBody {
   delivery_memo?: string;
   items: OrderItemInput[];
   subscribe_intent?: boolean;
+  sms_consent?: boolean;
   survey_who?: string;
   session_id?: string;
 }
@@ -105,6 +106,7 @@ export async function POST(request: NextRequest) {
         payment_mode: PAYMENT_MODE,
         status,
         subscribe_intent: body.subscribe_intent ?? false,
+        sms_consent: body.sms_consent ?? false,
         survey_who: body.survey_who || null,
         session_id: body.session_id || null,
       })

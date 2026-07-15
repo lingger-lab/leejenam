@@ -35,6 +35,7 @@ CREATE TYPE event_type AS ENUM (
   'checkout_start',
   'order_submit',
   'subscribe_intent',
+  'sms_consent',
   'survey_answer',
   'ghost_message_view'
 );
@@ -82,6 +83,7 @@ CREATE TABLE orders (
   payment_key     text,                                       -- PG 결제 키
   paid_at         timestamptz,
   subscribe_intent boolean    NOT NULL DEFAULT false,         -- 구독 의사
+  sms_consent     boolean     NOT NULL DEFAULT false,         -- SMS 수신 동의
   survey_who      text,                                       -- 'self' | 'family' | etc
   session_id      text,
   admin_memo      text,
