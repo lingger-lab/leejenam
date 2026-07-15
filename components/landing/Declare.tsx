@@ -1,6 +1,6 @@
 export function Declare() {
   return (
-    <section className="bg-paper py-24 px-6">
+    <section id="declare" className="bg-paper py-24 px-6">
       <div className="max-w-md mx-auto text-center">
         <p className="font-batang text-soft text-sm tracking-widest mb-8">
           철학

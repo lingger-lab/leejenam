@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -41,40 +42,39 @@ export function Header() {
     >
       <div className="max-w-lg mx-auto px-6 h-14 flex items-center justify-between">
         {/* 브랜드 */}
-        <a
-          href="#"
-          className="font-batang font-bold text-xl text-ink"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
+        <Link href="/" className="font-batang font-bold text-xl text-ink">
           이제남
-        </a>
+        </Link>
 
-        {/* 우측 네비게이션 */}
-        <div className="flex items-center gap-5">
-          <a
-            href="#shop"
+        {/* 네비게이션 */}
+        <nav className="flex items-center gap-4">
+          <Link
+            href="/#process"
+            className="font-plex text-sm text-soft hover:text-ink transition-colors"
+          >
+            이야기
+          </Link>
+          <Link
+            href="/#shop"
             className="font-plex text-sm text-soft hover:text-ink transition-colors"
           >
             주문하기
-          </a>
-          {cartCount > 0 && (
-            <a
-              href="/cart"
-              className="font-plex text-sm text-soft hover:text-ink transition-colors relative"
-            >
-              장바구니
+          </Link>
+          <Link
+            href="/cart"
+            className="font-plex text-sm text-soft hover:text-ink transition-colors relative"
+          >
+            장바구니
+            {cartCount > 0 && (
               <span
                 className="absolute -top-1.5 -right-3.5 w-4 h-4 bg-seal text-paper
                            text-[10px] flex items-center justify-center"
               >
                 {cartCount}
               </span>
-            </a>
-          )}
-        </div>
+            )}
+          </Link>
+        </nav>
       </div>
     </header>
   );

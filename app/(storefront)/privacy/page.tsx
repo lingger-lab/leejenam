@@ -1,6 +1,6 @@
 export default function PrivacyPage() {
   return (
-    <main className="bg-paper min-h-screen px-6 py-20">
+    <div className="bg-paper min-h-screen px-6 py-10">
       <div className="max-w-lg mx-auto">
         <p className="font-batang text-soft text-sm tracking-widest mb-3 text-center">
           농업회사법인 제이엔
@@ -76,18 +76,8 @@ export default function PrivacyPage() {
           본 방침은 2025년 1월 1일부터 시행합니다.
         </p>
 
-        {/* 돌아가기 */}
-        <div className="mt-10 text-center">
-          <a
-            href="/"
-            className="font-plex text-sm text-soft underline underline-offset-4
-                       decoration-rule hover:text-ink hover:decoration-ink transition-colors"
-          >
-            처음으로
-          </a>
-        </div>
       </div>
-    </main>
+    </div>
   );
 }
 

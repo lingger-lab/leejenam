@@ -7,7 +7,7 @@ const badges = [
 
 export function Badges() {
   return (
-    <section className="bg-paper py-16 px-6">
+    <section id="badges" className="bg-paper py-16 px-6">
       <div className="max-w-lg mx-auto grid grid-cols-2 gap-4">
         {badges.map((badge) => (
           <div

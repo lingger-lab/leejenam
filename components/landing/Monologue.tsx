@@ -1,6 +1,6 @@
 export function Monologue() {
   return (
-    <section className="bg-ink py-24 px-6">
+    <section id="monologue" className="bg-ink py-24 px-6">
       <div className="max-w-md mx-auto text-center">
         <p className="font-batang text-paper/60 text-sm tracking-widest mb-8">
           문제

@@ -40,7 +40,7 @@ export default function CartPage() {
   /* ---------- 빈 장바구니 ---------- */
   if (items.length === 0) {
     return (
-      <main className="bg-paper min-h-screen px-6 py-20">
+      <div className="bg-paper min-h-screen px-6 py-10">
         <div className="max-w-lg mx-auto text-center">
           <p className="font-batang text-soft text-sm tracking-widest mb-4">
             장바구니
@@ -59,13 +59,13 @@ export default function CartPage() {
             청 담으러 가기
           </Link>
         </div>
-      </main>
+      </div>
     );
   }
 
   /* ---------- 장바구니 목록 ---------- */
   return (
-    <main className="bg-paper min-h-screen px-6 py-20">
+    <div className="bg-paper min-h-screen px-6 py-10">
       <div className="max-w-lg mx-auto">
         <p className="font-batang text-soft text-sm tracking-widest mb-3 text-center">
           장바구니
@@ -165,6 +165,6 @@ export default function CartPage() {
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

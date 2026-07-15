@@ -91,7 +91,7 @@ export function Shop() {
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {products.map((product) => {
             const isOpen = selected === product.id;
             const error = errors[product.id];
@@ -104,30 +104,32 @@ export function Shop() {
                   isOpen ? 'border-seal bg-white-2' : 'border-rule bg-white-2/50'
                 }`}
               >
-                {/* 제품 헤더 */}
+                {/* 제품 카드 — 세로 배치 */}
                 <button
                   onClick={() => setSelected(isOpen ? null : product.id)}
-                  className="w-full flex items-center gap-4 p-4 text-left"
+                  className="w-full text-left"
                 >
-                  <div className="relative w-16 h-16 flex-shrink-0">
+                  {/* 큰 이미지 */}
+                  <div className="relative w-full aspect-[4/5]">
                     <Image
                       src={product.src}
                       alt={product.name}
                       fill
                       className="object-contain"
-                      sizes="64px"
+                      sizes="(max-width: 768px) 100vw, 512px"
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  {/* 제품 정보 */}
+                  <div className="p-4">
                     <h3 className="font-batang font-bold text-lg text-ink">
                       {product.name}
                     </h3>
                     <p className="text-soft text-sm mt-0.5 font-plex">
                       {product.note}
                     </p>
-                  </div>
-                  <div className="text-soft text-sm flex-shrink-0">
-                    {PRICE.toLocaleString()}원
+                    <p className="text-ink text-sm mt-2 font-plex">
+                      {PRICE.toLocaleString()}원
+                    </p>
                   </div>
                 </button>
 

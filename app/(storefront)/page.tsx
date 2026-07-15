@@ -1,5 +1,3 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { Hero } from '@/components/landing/Hero';
 import { Signature } from '@/components/landing/Signature';
 import { Badges } from '@/components/landing/Badges';
@@ -17,23 +15,19 @@ import { PageTracker } from '@/components/PageTracker';
 export default function Home() {
   return (
     <>
-      <Header />
-      <main className="pt-14">
-        <PageTracker />
-        <Hero />
-        <Signature />
-        <Badges />
-        <Monologue />
-        <Declare />
-        <Process />
-        <Origin />
-        <Rent />
-        <Maker />
-        <Refuse />
-        <Shop />
-        <Spec />
-      </main>
-      <Footer />
+      <PageTracker />
+      <Hero />
+      <Signature />
+      <Badges />
+      <Monologue />
+      <Declare />
+      <Process />
+      <Origin />
+      <Rent />
+      <Maker />
+      <Refuse />
+      <Shop />
+      <Spec />
     </>
   );
 }

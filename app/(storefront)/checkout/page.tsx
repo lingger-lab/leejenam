@@ -123,15 +123,20 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items,
+          items: items.map((item) => ({
+            product_id: item.productId,
+            engrave_name: item.engraveName,
+            unit_price: item.price,
+            quantity: item.quantity,
+          })),
           buyer_name: form.buyerName.trim(),
-          phone: form.phone.replace(/[\s-]/g, ''),
+          buyer_phone: form.phone.replace(/[\s-]/g, ''),
           zipcode: form.zipcode.trim(),
           address1: form.address1.trim(),
           address2: form.address2.trim(),
-          memo: form.memo.trim(),
+          delivery_memo: form.memo.trim(),
           subscribe_intent: form.subscribeIntent,
-          for_whom: form.forWhom,
+          survey_who: form.forWhom,
         }),
       });
 
@@ -140,9 +145,9 @@ export default function CheckoutPage() {
         throw new Error(body.error || '주문 접수에 실패했습니다.');
       }
 
-      const { id } = await res.json();
+      const { orderId } = await res.json();
       clearCart();
-      router.push(`/order/${id}`);
+      router.push(`/order/${orderId}`);
     } catch (err) {
       setErrors({
         cart: err instanceof Error ? err.message : '주문 접수에 실패했습니다.',
@@ -153,7 +158,7 @@ export default function CheckoutPage() {
 
   /* ---------- 렌더 ---------- */
   return (
-    <main className="bg-paper min-h-screen px-6 py-20">
+    <div className="bg-paper min-h-screen px-6 py-10">
       <div className="max-w-lg mx-auto">
         <p className="font-batang text-soft text-sm tracking-widest mb-3 text-center">
           주문서
@@ -328,7 +333,7 @@ export default function CheckoutPage() {
           </p>
         </form>
       </div>
-    </main>
+    </div>
   );
 }
 

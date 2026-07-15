@@ -1,6 +1,6 @@
 export function Spec() {
   return (
-    <section className="bg-paper-2 py-16 px-6">
+    <section id="spec" className="bg-paper-2 py-16 px-6">
       <div className="max-w-lg mx-auto">
         <p className="font-batang text-soft text-sm tracking-widest mb-8 text-center">
           제품 정보

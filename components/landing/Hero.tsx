@@ -63,15 +63,15 @@ export function Hero() {
 
   return (
     <section
-      className="relative w-full bg-paper overflow-hidden"
+      id="hero" className="relative w-full bg-paper overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-label="이제남 과일청 3종"
     >
-      {/* 슬라이드 */}
-      <div className="relative w-full max-w-md mx-auto aspect-[4/5]">
+      {/* 슬라이드 — 확대된 이미지 */}
+      <div className="relative w-full max-w-lg mx-auto px-4 aspect-[4/5]">
         {slides.map((slide, i) => (
           <div
             key={slide.id}
@@ -85,21 +85,14 @@ export function Hero() {
               fill
               className="object-contain"
               priority={i === 0}
-              sizes="(max-width: 768px) 100vw, 448px"
+              sizes="(max-width: 768px) 100vw, 512px"
             />
           </div>
         ))}
       </div>
 
-      {/* 하단 텍스트 */}
-      <div className="text-center pb-10 pt-4">
-        <p className="font-batang text-sm text-soft tracking-wider">
-          각각 다른 이름이 새겨집니다
-        </p>
-      </div>
-
       {/* 점 인디케이터 */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2.5">
+      <div className="flex justify-center gap-2.5 mt-3">
         {slides.map((slide, i) => (
           <button
             key={slide.id}
@@ -113,6 +106,34 @@ export function Hero() {
             aria-current={i === current}
           />
         ))}
+      </div>
+
+      {/* 이름 전환 강조 */}
+      <div className="text-center pt-5 pb-1">
+        <p className="font-pen text-3xl text-seal">
+          {slides[current].name}
+        </p>
+        <p className="font-plex text-xs text-soft mt-1">
+          님에게 갑니다
+        </p>
+      </div>
+
+      {/* 하단 카피 */}
+      <div className="text-center py-2">
+        <p className="font-batang text-base text-soft tracking-wider">
+          각각 다른 이름이 새겨집니다
+        </p>
+      </div>
+
+      {/* CTA */}
+      <div className="text-center pb-8 pt-3">
+        <a
+          href="#shop"
+          className="inline-block font-plex text-sm font-medium bg-ink text-paper
+                     px-6 py-3 hover:bg-seal transition-colors"
+        >
+          이름 새겨서 주문하기
+        </a>
       </div>
     </section>
   );
