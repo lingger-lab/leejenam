@@ -89,7 +89,7 @@ function CheckoutPage() {
     zipcode: '',
     address1: '',
     address2: '',
-    memo: '',
+    memo: '문 앞에 놓아주세요',
     subscribeIntent: false,
     forWhom: 'self',
   });
