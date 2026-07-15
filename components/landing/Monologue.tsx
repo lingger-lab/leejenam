@@ -9,13 +9,13 @@ export function Monologue() {
           커피는 줄이라는데,
           <br />
           물은 안 넘어가고.
-          <br />
-          <br />
-          그래서 오늘도
-          <br />
-          커피를 마셨습니다.
         </blockquote>
-        <div className="w-8 h-px bg-paper/30 mx-auto mt-10" />
+        <div className="w-8 h-px bg-paper/30 mx-auto my-10" />
+        <p className="font-batang text-gold text-lg leading-loose">
+          그래서 과일로 만든 청을 담갔습니다.
+          <br />
+          설탕 없이, 물에 타서 마실 수 있도록.
+        </p>
       </div>
     </section>
   );
