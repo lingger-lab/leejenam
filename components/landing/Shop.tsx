@@ -94,15 +94,25 @@ export function Shop() {
                 alt={product.name}
               />
               <div className="p-4">
-                <h3 className="font-batang font-bold text-lg text-ink">
-                  {product.name}
-                </h3>
-                <p className="text-soft text-sm mt-0.5 font-plex">
+                <div className="flex items-baseline justify-between mb-1">
+                  <h3 className="font-batang font-bold text-lg text-ink">
+                    {product.name}
+                  </h3>
+                  <span className="font-plex text-sm text-ink">
+                    {PRICE.toLocaleString()}원
+                  </span>
+                </div>
+                <p className="text-soft text-sm font-plex mb-4">
                   {product.note}
                 </p>
-                <p className="text-ink text-sm mt-2 font-plex">
-                  {PRICE.toLocaleString()}원
-                </p>
+                <Link
+                  href={`/checkout?product=${product.id}`}
+                  className="block w-full py-3 bg-ink text-paper text-center
+                             font-plex font-medium text-sm tracking-wide
+                             hover:bg-seal active:bg-seal transition-colors"
+                >
+                  주문하기
+                </Link>
               </div>
             </div>
           ))}
@@ -111,10 +121,10 @@ export function Shop() {
         <div className="mt-10 text-center">
           <Link
             href="/checkout"
-            className="inline-block font-plex text-sm font-medium bg-ink text-paper
-                       px-6 py-3 hover:bg-seal transition-colors"
+            className="inline-block font-plex text-sm text-soft underline underline-offset-4
+                       decoration-rule hover:text-ink hover:decoration-ink transition-colors"
           >
-            이름 새겨서 주문하기
+            전체 상품 보기
           </Link>
         </div>
       </div>

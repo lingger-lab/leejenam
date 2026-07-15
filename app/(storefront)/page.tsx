@@ -11,10 +11,12 @@ import { Refuse } from '@/components/landing/Refuse';
 import { Shop } from '@/components/landing/Shop';
 import { Spec } from '@/components/landing/Spec';
 import { PageTracker } from '@/components/PageTracker';
+import { NameGate } from '@/components/NameGate';
 
 export default function Home() {
   return (
     <>
+      <NameGate />
       <PageTracker />
       <Hero />
       <Signature />

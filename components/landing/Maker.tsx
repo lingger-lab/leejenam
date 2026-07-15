@@ -2,25 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { getStoredName } from '@/lib/name';
 
 export function Maker() {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    const handleStorage = () => {
-      try {
-        const cart = JSON.parse(localStorage.getItem('ijn_cart') ?? '[]');
-        if (cart.length > 0) {
-          setUserName(cart[0].engraveName);
-        }
-      } catch {
-        // ignore
-      }
-    };
-
-    handleStorage();
-    window.addEventListener('cart-updated', handleStorage);
-    return () => window.removeEventListener('cart-updated', handleStorage);
+    const sync = () => setUserName(getStoredName());
+    sync();
+    window.addEventListener('name-updated', sync);
+    return () => window.removeEventListener('name-updated', sync);
   }, []);
 
   const names = [

@@ -4,11 +4,20 @@ import { useState, useEffect, useRef } from 'react';
 import { LabelPreview } from '@/components/LabelPreview';
 import { validateEngraveName } from '@/lib/validators';
 import { track } from '@/lib/events';
+import { getStoredName, setStoredName } from '@/lib/name';
 
 export function Signature() {
   const [name, setName] = useState('');
   const [hasStarted, setHasStarted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const stored = getStoredName();
+    if (stored) {
+      setName(stored);
+      setHasStarted(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (name.length === 1 && !hasStarted) {
@@ -21,6 +30,7 @@ export function Signature() {
     const val = e.target.value;
     if (val.length <= 10) {
       setName(val);
+      setStoredName(val);
     }
   };
 

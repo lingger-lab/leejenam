@@ -1,12 +1,23 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useState, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { PRODUCTS, type ProductId } from '@/lib/products';
 import { PRICE } from '@/lib/config';
 import { validatePhone, validateEngraveName } from '@/lib/validators';
 import { track } from '@/lib/events';
+import { getStoredName } from '@/lib/name';
+
+/* ---------- Suspense wrapper ---------- */
+
+export default function CheckoutPageWrapper() {
+  return (
+    <Suspense>
+      <CheckoutPage />
+    </Suspense>
+  );
+}
 
 /* ---------- Types ---------- */
 
@@ -33,11 +44,26 @@ type FormErrors = Partial<
   Record<keyof ShippingForm | 'items' | 'engrave' | 'api', string>
 >;
 
+/* ---------- Daum Postcode type ---------- */
+
+declare global {
+  interface Window {
+    daum?: {
+      Postcode: new (opts: {
+        oncomplete: (data: { zonecode: string; roadAddress: string }) => void;
+      }) => { open: () => void };
+    };
+  }
+}
+
 /* ---------- Page ---------- */
 
-export default function CheckoutPage() {
+function CheckoutPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const errorRef = useRef<HTMLDivElement>(null);
+  const address2Ref = useRef<HTMLInputElement>(null);
+  const initializedRef = useRef(false);
 
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [nameInputs, setNameInputs] = useState<Record<ProductId, string>>({
@@ -67,11 +93,37 @@ export default function CheckoutPage() {
 
   const total = orderItems.reduce((sum, item) => sum + item.price, 0);
 
-  /* 마운트 */
+  /* 마운트: 저장된 이름 기입 + 쿼리 파라미터 처리 */
   useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     localStorage.removeItem('ijn_cart');
     track('checkout_start');
-  }, []);
+
+    const stored = getStoredName();
+    if (stored) {
+      setNameInputs({ peach: stored, plum: stored, berry: stored });
+    }
+
+    const productParam = searchParams.get('product') as ProductId | null;
+    if (productParam && stored) {
+      const product = PRODUCTS.find((p) => p.id === productParam);
+      const result = validateEngraveName(stored);
+      if (product && result.ok) {
+        setOrderItems([
+          {
+            id: crypto.randomUUID(),
+            productId: product.id,
+            productName: product.name,
+            engraveName: stored,
+            price: PRICE,
+          },
+        ]);
+        setNameInputs((prev) => ({ ...prev, [productParam]: '' }));
+      }
+    }
+  }, [searchParams]);
 
   /* 에러 시 스크롤 */
   useEffect(() => {
@@ -124,6 +176,19 @@ export default function CheckoutPage() {
   ) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: undefined }));
+  };
+
+  /* ---------- 다음 우편번호 검색 ---------- */
+
+  const openPostcode = () => {
+    if (!window.daum?.Postcode) return;
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        updateField('zipcode', data.zonecode);
+        updateField('address1', data.roadAddress);
+        setTimeout(() => address2Ref.current?.focus(), 100);
+      },
+    }).open();
   };
 
   /* ---------- 검증 + 제출 ---------- */
@@ -359,25 +424,40 @@ export default function CheckoutPage() {
             </Field>
 
             <Field label="주소" error={errors.zipcode}>
-              <input
-                type="text"
-                value={form.zipcode}
-                onChange={(e) => updateField('zipcode', e.target.value)}
-                placeholder="우편번호"
-                className={`${inputClass} mb-2`}
-              />
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={form.zipcode}
+                  readOnly
+                  placeholder="우편번호"
+                  className={`${inputClass} flex-1 bg-white-2 cursor-pointer`}
+                  onClick={openPostcode}
+                />
+                <button
+                  type="button"
+                  onClick={openPostcode}
+                  className="flex-shrink-0 px-4 py-3 bg-ink text-paper
+                             font-plex text-sm font-medium
+                             hover:bg-seal active:bg-seal transition-colors"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  주소 검색
+                </button>
+              </div>
               <input
                 type="text"
                 value={form.address1}
-                onChange={(e) => updateField('address1', e.target.value)}
+                readOnly
                 placeholder="기본주소"
-                className={`${inputClass} mb-2`}
+                className={`${inputClass} mb-2 bg-white-2 cursor-pointer`}
+                onClick={openPostcode}
               />
               <input
+                ref={address2Ref}
                 type="text"
                 value={form.address2}
                 onChange={(e) => updateField('address2', e.target.value)}
-                placeholder="상세주소"
+                placeholder="상세주소 (동/호수)"
                 className={inputClass}
               />
             </Field>

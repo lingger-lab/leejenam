@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import { getStoredName } from '@/lib/name';
 
 const slides = [
   {
@@ -28,6 +29,7 @@ export function Hero() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [userName, setUserName] = useState('');
 
   const next = useCallback(() => {
     setCurrent((c) => (c + 1) % slides.length);
@@ -38,13 +40,20 @@ export function Hero() {
   }, []);
 
   useEffect(() => {
+    const sync = () => setUserName(getStoredName());
+    sync();
+    window.addEventListener('name-updated', sync);
+    return () => window.removeEventListener('name-updated', sync);
+  }, []);
+
+  useEffect(() => {
     if (paused) return;
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
     if (prefersReducedMotion) return;
 
-    const timer = setInterval(next, 5000);
+    const timer = setInterval(next, 3000);
     return () => clearInterval(timer);
   }, [paused, next]);
 
@@ -60,6 +69,8 @@ export function Hero() {
     }
     setTouchStart(null);
   };
+
+  const displayName = userName || slides[current].name;
 
   return (
     <section
@@ -111,7 +122,7 @@ export function Hero() {
       {/* 이름 전환 강조 */}
       <div className="text-center pt-5 pb-1">
         <p className="font-pen text-3xl text-seal">
-          {slides[current].name}
+          {displayName}
         </p>
         <p className="font-plex text-xs text-soft mt-1">
           님에게 갑니다
