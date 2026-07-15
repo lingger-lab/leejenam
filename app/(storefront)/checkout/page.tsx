@@ -538,7 +538,22 @@ function CheckoutPage() {
 
             {/* 구독 의향 */}
             <div className="border border-rule bg-white-2/50 p-5">
-              <label className="flex items-start gap-3 cursor-pointer">
+              <p className="font-batang font-bold text-lg text-ink">
+                매달 제철 청 구독
+              </p>
+              <p className="font-plex text-sm text-ink mt-1">
+                {PRICE.toLocaleString()}원 / 월 · 배송비 무료
+              </p>
+              <p className="font-plex text-sm text-soft mt-3 leading-relaxed">
+                그 계절에 담글 수 있는 청을
+                <br />
+                영양사인 제가 골라서 보내드립니다.
+                <br />
+                덜 달게, 시게 — 입맛도 맞춰드립니다.
+                <br />
+                매달 고르실 필요 없이, 제철 것을 보내드립니다.
+              </p>
+              <label className="flex items-start gap-3 cursor-pointer mt-4">
                 <input
                   type="checkbox"
                   checked={form.subscribeIntent}
@@ -549,13 +564,9 @@ function CheckoutPage() {
                   className="accent-seal w-6 h-6 mt-0.5 flex-shrink-0"
                 />
                 <span className="font-plex text-base text-ink leading-relaxed">
-                  정기적으로 받아보고 싶습니다
+                  이 구독에 관심 있습니다
                 </span>
               </label>
-              <p className="font-plex text-sm text-soft mt-3 ml-9 leading-relaxed">
-                매달 제철 과일로 담근 청을 보내드립니다.
-                체크해주시면 정기배송이 시작될 때 가장 먼저 안내드리겠습니다.
-              </p>
             </div>
 
             {/* SMS 수신 동의 */}
@@ -570,7 +581,7 @@ function CheckoutPage() {
                 className="accent-seal w-6 h-6 mt-0.5 flex-shrink-0"
               />
               <span className="font-plex text-base text-ink leading-relaxed">
-                주문 안내 및 소식을 문자로 받겠습니다
+                주문 진행상황을 문자로 받겠습니다 (SMS)
               </span>
             </label>
           </div>
