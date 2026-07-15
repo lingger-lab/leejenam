@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const steps = [
   { num: '01', title: '원물', desc: '욱곡농장에서 과일을 받습니다.' },
-  { num: '02', title: '세척', desc: '흐르는 물에 세 번 씻습니다.' },
+  { num: '02', title: '세척', desc: '흐르는 물에 세 번 씻습니다.', image: '/img/08_wash.webp' },
   { num: '03', title: '손질', desc: '사람 손으로 자릅니다.' },
   { num: '04', title: '담금', desc: '유리병에 켜켜이 담급니다.', image: '/img/04_pouring.webp' },
   { num: '05', title: '병입', desc: '소분하여 밀봉합니다.' },
