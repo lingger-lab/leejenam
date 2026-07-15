@@ -64,6 +64,7 @@ function CheckoutPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const errorRef = useRef<HTMLDivElement>(null);
+  const orderListRef = useRef<HTMLDivElement>(null);
   const address2Ref = useRef<HTMLInputElement>(null);
   const postcodeRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
@@ -167,6 +168,9 @@ function CheckoutPage() {
     setOrderItems((prev) => [...prev, newItem]);
     setNameInputs((prev) => ({ ...prev, [id]: '' }));
     track('add_to_cart', { product_id: id, engrave_name: name });
+    setTimeout(() => {
+      orderListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
   };
 
   const handleRemove = (itemId: string) => {
@@ -369,7 +373,7 @@ function CheckoutPage() {
 
           {/* ── 주문 내역 ── */}
           {orderItems.length > 0 && (
-            <div className="border border-rule bg-white-2 p-5 mb-10">
+            <div ref={orderListRef} className="border border-rule bg-white-2 p-5 mb-10">
               <p className="font-batang text-soft text-xs tracking-widest mb-4">
                 주문 내역
               </p>
