@@ -51,7 +51,9 @@ declare global {
     daum?: {
       Postcode: new (opts: {
         oncomplete: (data: { zonecode: string; roadAddress: string }) => void;
-      }) => { open: () => void };
+        width?: string;
+        height?: string;
+      }) => { open: () => void; embed: (element: HTMLElement) => void };
     };
   }
 }
@@ -63,6 +65,7 @@ function CheckoutPage() {
   const searchParams = useSearchParams();
   const errorRef = useRef<HTMLDivElement>(null);
   const address2Ref = useRef<HTMLInputElement>(null);
+  const postcodeRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
@@ -77,6 +80,7 @@ function CheckoutPage() {
     berry: '',
   });
   const [submitting, setSubmitting] = useState(false);
+  const [showPostcode, setShowPostcode] = useState(false);
 
   const [form, setForm] = useState<ShippingForm>({
     buyerName: '',
@@ -179,18 +183,27 @@ function CheckoutPage() {
     setErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  /* ---------- 다음 우편번호 검색 ---------- */
+  /* ---------- 다음 우편번호 검색 (임베드 방식) ---------- */
 
   const openPostcode = () => {
-    if (!window.daum?.Postcode) return;
-    new window.daum.Postcode({
-      oncomplete: (data) => {
-        updateField('zipcode', data.zonecode);
-        updateField('address1', data.roadAddress);
-        setTimeout(() => address2Ref.current?.focus(), 100);
-      },
-    }).open();
+    setShowPostcode(true);
   };
+
+  useEffect(() => {
+    if (showPostcode && postcodeRef.current && window.daum?.Postcode) {
+      postcodeRef.current.innerHTML = '';
+      new window.daum.Postcode({
+        oncomplete: (data) => {
+          updateField('zipcode', data.zonecode);
+          updateField('address1', data.roadAddress);
+          setShowPostcode(false);
+          setTimeout(() => address2Ref.current?.focus(), 100);
+        },
+        width: '100%',
+        height: '100%',
+      }).embed(postcodeRef.current);
+    }
+  }, [showPostcode]);
 
   /* ---------- 검증 + 제출 ---------- */
 
@@ -583,6 +596,27 @@ function CheckoutPage() {
 
         {orderItems.length > 0 && <div className="h-24 md:hidden" />}
       </div>
+
+      {/* ── 주소 검색 오버레이 (임베드) ── */}
+      {showPostcode && (
+        <div className="fixed inset-0 z-50 bg-ink/40 flex items-end md:items-center justify-center">
+          <div className="w-full max-w-lg bg-paper">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-rule">
+              <span className="font-plex text-sm text-ink font-medium">
+                주소 검색
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowPostcode(false)}
+                className="font-plex text-sm text-soft hover:text-ink transition-colors px-2"
+              >
+                닫기
+              </button>
+            </div>
+            <div ref={postcodeRef} style={{ height: '450px', width: '100%' }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
