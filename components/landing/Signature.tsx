@@ -12,11 +12,16 @@ export function Signature() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const stored = getStoredName();
-    if (stored) {
-      setName(stored);
-      setHasStarted(true);
-    }
+    const sync = () => {
+      const stored = getStoredName();
+      if (stored) {
+        setName(stored);
+        setHasStarted(true);
+      }
+    };
+    sync();
+    window.addEventListener('name-updated', sync);
+    return () => window.removeEventListener('name-updated', sync);
   }, []);
 
   useEffect(() => {
