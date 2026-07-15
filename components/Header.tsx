@@ -49,7 +49,7 @@ export function Header() {
         {/* 네비게이션 */}
         <nav className="flex items-center gap-4">
           <Link
-            href="/#process"
+            href="/story"
             className="font-plex text-sm text-soft hover:text-ink transition-colors"
           >
             이야기

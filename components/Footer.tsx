@@ -11,7 +11,7 @@ export function Footer() {
         {/* 네비게이션 */}
         <div className="flex items-center justify-center gap-6 my-8">
           <Link
-            href="/#process"
+            href="/story"
             className="font-plex text-xs text-paper/50 hover:text-paper/70 transition-colors"
           >
             회사소개
@@ -44,7 +44,7 @@ export function Footer() {
           <p>농업회사법인(주)제이엔 · 대표 이제남</p>
           <p>사업자등록번호 587-87-03728</p>
           <p>경상남도 창원시 마산합포구 구산면 옥곡1길 77</p>
-          <p>업태: 도매 및 소매업, 서비스 · 종목: 농식품, 농식품개발</p>
+          <p>전화번호: 010-8339-5585</p>
         </div>
       </div>
     </footer>
