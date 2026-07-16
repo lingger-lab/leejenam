@@ -77,7 +77,7 @@ export default function StoryPage() {
               영양을 공부하면서 배운 건, 함부로 좋다고 말하면 안 된다는 것이었습니다.
             </p>
             <p>
-              그래서 설탕을 뺐고, 효능은 말하지 않습니다.
+              그래서 설탕 대신 알룰로스를 쓰고, 효능은 말하지 않습니다.
             </p>
             <p>
               제가 아는 건 하나입니다. 오늘 담갔다는 것.
@@ -95,7 +95,7 @@ export default function StoryPage() {
               <strong className="font-bold">미리 담가두지 않습니다.</strong> 그래서 사흘이 걸립니다.
             </p>
             <p>
-              <strong className="font-bold">설탕을 넣지 않습니다.</strong> 그래서 석 달밖에 못 갑니다.
+              <strong className="font-bold">설탕 대신 알룰로스를 씁니다.</strong> 그래서 석 달밖에 못 갑니다.
             </p>
             <p>
               <strong className="font-bold">효능을 말하지 않습니다.</strong> 저희도 모르기 때문입니다.

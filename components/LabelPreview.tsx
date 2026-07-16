@@ -46,7 +46,7 @@ export function LabelPreview({
       <hr className="border-0 h-px bg-rule mt-6" />
 
       <div className={`${s.info} text-soft mt-4 leading-relaxed`}>
-        {productName} · 500ml · 설탕 없음
+        {productName} · 500ml · 설탕 대신 알룰로스
         {date && (
           <>
             <br />

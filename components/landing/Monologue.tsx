@@ -14,7 +14,7 @@ export function Monologue() {
         <p className="font-batang text-gold text-lg leading-loose">
           그래서 과일로 만든 청을 담갔습니다.
           <br />
-          설탕 없이, 물에 타서 마실 수 있도록.
+          설탕 대신 알룰로스, 물에 타서 마실 수 있도록.
         </p>
       </div>
     </section>

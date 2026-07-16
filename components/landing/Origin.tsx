@@ -15,7 +15,7 @@ export function Origin() {
             35.1095°N, 128.5835°E
           </p>
           <p className="text-soft text-sm mt-1 font-plex">
-            경남 진주 · 이수성
+            경남 창원 · 이수성
           </p>
         </div>
 

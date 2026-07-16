@@ -2,7 +2,7 @@ const badges = [
   { label: '재고', value: '0병', desc: '주문받고 담급니다' },
   { label: '배송', value: '사흘', desc: '주문 후 3~4일' },
   { label: '라벨', value: '이름', desc: '드시는 분 이름을 새깁니다' },
-  { label: '원물', value: '욱곡', desc: '경남 진주 욱곡농장' },
+  { label: '원물', value: '욱곡', desc: '경남 창원 욱곡농장' },
 ];
 
 export function Badges() {
