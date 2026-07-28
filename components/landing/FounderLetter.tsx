@@ -1,0 +1,54 @@
+export function FounderLetter() {
+  return (
+    <section id="founder" className="bg-paper py-24 px-6">
+      <div className="max-w-md mx-auto">
+        <p className="font-batang text-seal text-sm tracking-widest mb-8">
+          이걸 만든 이유.
+        </p>
+
+        <div className="font-batang text-base text-ink leading-loose space-y-4 text-left">
+          <p>
+            건강에 좋다는 것들을 많이 봤습니다.
+            <br />
+            효능을 잔뜩 적어두고, 비싸게 팝니다.
+          </p>
+          <p>
+            영양을 공부한 사람으로서 압니다.
+            <br />
+            그렇게 대단한 건 별로 없다는 걸.
+          </p>
+          <p>
+            그래서 저는 반대로 했습니다.
+            <br />
+            제철에 난 과일을, 그대로 담급니다.
+            <br />
+            아무것도 더하지 않습니다.
+          </p>
+          <p>
+            설탕은 뺐습니다.
+            <br />
+            대신 알룰로스로 단맛을 냈습니다.
+            <br />
+            달아도 덜 부담스럽게.
+          </p>
+          <p>
+            달게 드시는 분께는 달게,
+            <br />
+            덜 달게 드시는 분께는 덜 달게.
+            <br />
+            한 병씩 담그니, 입맛을 맞출 수 있습니다.
+          </p>
+          <p>
+            효능은 말하지 않겠습니다.
+            <br />
+            그냥, 오늘 담근 과일청입니다.
+          </p>
+        </div>
+
+        <p className="font-pen text-2xl text-seal mt-10 text-right">
+          — 이제남
+        </p>
+      </div>
+    </section>
+  );
+}

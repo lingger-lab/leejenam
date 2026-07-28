@@ -1,6 +1,6 @@
 export function Monologue() {
   return (
-    <section id="monologue" className="bg-ink py-24 px-6">
+    <section id="hook" className="bg-ink min-h-[100dvh] px-6 flex flex-col items-center justify-center relative">
       <div className="max-w-md mx-auto text-center">
         <p className="font-batang text-paper/60 text-sm tracking-widest mb-8">
           문제
@@ -17,6 +17,10 @@ export function Monologue() {
           설탕 대신 알룰로스, 물에 타서 마실 수 있도록.
         </p>
       </div>
+
+      <p className="absolute bottom-8 left-1/2 -translate-x-1/2 font-plex text-paper/40 text-xs animate-bounce">
+        아래로 ↓
+      </p>
     </section>
   );
 }

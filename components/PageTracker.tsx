@@ -4,8 +4,9 @@ import { useEffect } from 'react';
 import { track } from '@/lib/events';
 
 const SECTIONS = [
-  'hero', 'signature', 'badges', 'monologue', 'declare',
-  'process', 'origin', 'rent', 'maker', 'refuse', 'shop', 'spec',
+  'hook', 'banner', 'founder', 'credentials', 'maker',
+  'refuse', 'fruits', 'process', 'origin', 'facility',
+  'limit', 'hero', 'signature', 'shop', 'spec',
 ];
 
 export function PageTracker() {

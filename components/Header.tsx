@@ -30,7 +30,7 @@ export function Header() {
         {/* 네비게이션 */}
         <nav className="flex items-center gap-4">
           <Link
-            href="/story"
+            href="/#hook"
             className="font-plex text-sm text-soft hover:text-ink transition-colors"
           >
             이야기

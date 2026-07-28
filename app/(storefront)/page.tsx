@@ -1,13 +1,16 @@
-import { Hero } from '@/components/landing/Hero';
-import { Signature } from '@/components/landing/Signature';
-import { Badges } from '@/components/landing/Badges';
 import { Monologue } from '@/components/landing/Monologue';
-import { Declare } from '@/components/landing/Declare';
+import { FruitBanner } from '@/components/landing/FruitBanner';
+import { FounderLetter } from '@/components/landing/FounderLetter';
+import { Credentials } from '@/components/landing/Credentials';
+import { Maker } from '@/components/landing/Maker';
+import { Refuse } from '@/components/landing/Refuse';
+import { FruitShowcase } from '@/components/landing/FruitShowcase';
 import { Process } from '@/components/landing/Process';
 import { Origin } from '@/components/landing/Origin';
 import { Rent } from '@/components/landing/Rent';
-import { Maker } from '@/components/landing/Maker';
-import { Refuse } from '@/components/landing/Refuse';
+import { ProductionLimit } from '@/components/landing/ProductionLimit';
+import { Hero } from '@/components/landing/Hero';
+import { Signature } from '@/components/landing/Signature';
 import { Shop } from '@/components/landing/Shop';
 import { Spec } from '@/components/landing/Spec';
 import { PageTracker } from '@/components/PageTracker';
@@ -18,16 +21,19 @@ export default function Home() {
     <>
       <NameGate />
       <PageTracker />
-      <Hero />
-      <Signature />
-      <Badges />
       <Monologue />
-      <Declare />
+      <FruitBanner />
+      <FounderLetter />
+      <Credentials />
+      <Maker />
+      <Refuse />
+      <FruitShowcase />
       <Process />
       <Origin />
       <Rent />
-      <Maker />
-      <Refuse />
+      <ProductionLimit />
+      <Hero />
+      <Signature />
       <Shop />
       <Spec />
     </>

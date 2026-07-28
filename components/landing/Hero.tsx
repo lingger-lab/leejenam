@@ -53,7 +53,7 @@ export function Hero() {
     ).matches;
     if (prefersReducedMotion) return;
 
-    const timer = setInterval(next, 3000);
+    const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
   }, [paused, next]);
 
@@ -95,7 +95,7 @@ export function Hero() {
               alt={slide.alt}
               fill
               className="object-contain"
-              priority={i === 0}
+              loading="lazy"
               sizes="(max-width: 768px) 100vw, 512px"
             />
           </div>
@@ -139,7 +139,7 @@ export function Hero() {
       {/* CTA */}
       <div className="text-center pb-8 pt-3">
         <a
-          href="/checkout"
+          href="#shop"
           className="inline-block font-plex text-sm font-medium bg-ink text-paper
                      px-6 py-3 hover:bg-seal transition-colors"
         >

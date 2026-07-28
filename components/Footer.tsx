@@ -11,7 +11,7 @@ export function Footer() {
         {/* 네비게이션 */}
         <div className="flex items-center justify-center gap-6 my-8">
           <Link
-            href="/story"
+            href="/#founder"
             className="font-plex text-xs text-paper/50 hover:text-paper/70 transition-colors"
           >
             회사소개
