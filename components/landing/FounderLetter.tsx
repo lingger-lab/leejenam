@@ -54,7 +54,7 @@ export function FounderLetter() {
             alt="이제남 서명"
             width={140}
             height={50}
-            className="h-10 w-auto opacity-70"
+            className="h-10 w-auto"
             loading="lazy"
           />
         </div>
