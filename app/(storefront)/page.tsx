@@ -15,6 +15,7 @@ import { Shop } from '@/components/landing/Shop';
 import { Spec } from '@/components/landing/Spec';
 import { PageTracker } from '@/components/PageTracker';
 import { NameGate } from '@/components/NameGate';
+import { FadeUp } from '@/components/FadeUp';
 
 export default function Home() {
   return (
@@ -22,20 +23,20 @@ export default function Home() {
       <NameGate />
       <PageTracker />
       <Monologue />
-      <FruitBanner />
-      <FounderLetter />
-      <Credentials />
-      <Maker />
-      <Refuse />
-      <FruitShowcase />
-      <Process />
-      <Origin />
-      <Rent />
-      <ProductionLimit />
-      <Hero />
-      <Signature />
-      <Shop />
-      <Spec />
+      <FadeUp><FruitBanner /></FadeUp>
+      <FadeUp><FounderLetter /></FadeUp>
+      <FadeUp><Credentials /></FadeUp>
+      <FadeUp><Maker /></FadeUp>
+      <FadeUp><Refuse /></FadeUp>
+      <FadeUp><FruitShowcase /></FadeUp>
+      <FadeUp><Process /></FadeUp>
+      <FadeUp><Origin /></FadeUp>
+      <FadeUp><Rent /></FadeUp>
+      <FadeUp><ProductionLimit /></FadeUp>
+      <FadeUp><Hero /></FadeUp>
+      <FadeUp><Signature /></FadeUp>
+      <FadeUp><Shop /></FadeUp>
+      <FadeUp><Spec /></FadeUp>
     </>
   );
 }

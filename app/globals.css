@@ -50,11 +50,70 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 히어로 — 물에 청이 퍼지는 색 번짐 */
+@keyframes bloom {
+  0%   { transform: scale(0.3); opacity: 0; }
+  40%  { opacity: 0.2; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.bloom {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform, opacity;
+  animation: bloom 8s ease-in-out infinite;
+}
+
+.bloom-peach {
+  background: #F2C4A0;
+  top: 25%;
+  left: 15%;
+}
+
+.bloom-plum {
+  background: #B34A5C;
+  top: 55%;
+  right: 10%;
+  animation-delay: 2.7s;
+}
+
+.bloom-berry {
+  background: #5A4A7A;
+  bottom: 15%;
+  left: 40%;
+  animation-delay: 5.3s;
+}
+
+/* 스크롤 페이드업 */
+[data-fade-up] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+[data-fade-up][data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .cursor-blink {
     animation: none;
+  }
+  .bloom {
+    animation: none;
+    opacity: 0.12;
+    transform: scale(1.2);
+  }
+  [data-fade-up] {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

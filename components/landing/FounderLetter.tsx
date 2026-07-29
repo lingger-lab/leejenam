@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function FounderLetter() {
   return (
     <section id="founder" className="bg-paper py-24 px-6">
@@ -45,9 +47,17 @@ export function FounderLetter() {
           </p>
         </div>
 
-        <p className="font-pen text-2xl text-seal mt-10 text-right">
-          — 이제남
-        </p>
+        <div className="mt-10 flex items-center justify-end gap-3">
+          <span className="font-pen text-2xl text-seal">—</span>
+          <Image
+            src="/img/signature.png"
+            alt="이제남 서명"
+            width={140}
+            height={50}
+            className="h-10 w-auto opacity-70"
+            loading="lazy"
+          />
+        </div>
       </div>
     </section>
   );
