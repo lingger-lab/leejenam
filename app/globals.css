@@ -50,46 +50,44 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 히어로 — 물에 청이 퍼지는 색 번짐 */
+/* 히어로 — 물에 청이 퍼지는 색 번짐 (radial-gradient: blur 대신, 모바일 GPU 호환) */
 @keyframes bloom {
   0%   { transform: scale(0.3); opacity: 0; }
-  40%  { opacity: 0.3; }
+  40%  { opacity: 0.5; }
   100% { transform: scale(1.8); opacity: 0; }
 }
 
 .bloom {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  filter: blur(40px);
   will-change: transform, opacity;
   animation: bloom 8s ease-in-out infinite;
 }
 
 @media (min-width: 768px) {
   .bloom {
-    width: 280px;
-    height: 280px;
-    filter: blur(80px);
+    width: 360px;
+    height: 360px;
   }
 }
 
 .bloom-peach {
-  background: #F2C4A0;
+  background: radial-gradient(circle, rgba(242, 196, 160, 0.6) 0%, transparent 70%);
   top: 25%;
   left: 15%;
 }
 
 .bloom-plum {
-  background: #B34A5C;
+  background: radial-gradient(circle, rgba(179, 74, 92, 0.6) 0%, transparent 70%);
   top: 55%;
   right: 10%;
   animation-delay: 2.7s;
 }
 
 .bloom-berry {
-  background: #5A4A7A;
+  background: radial-gradient(circle, rgba(90, 74, 122, 0.6) 0%, transparent 70%);
   bottom: 15%;
   left: 40%;
   animation-delay: 5.3s;
@@ -116,7 +114,7 @@ html {
   }
   .bloom {
     animation: none;
-    opacity: 0.12;
+    opacity: 0.25;
     transform: scale(1.2);
   }
   [data-fade-up] {
