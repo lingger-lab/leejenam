@@ -64,11 +64,14 @@ declare global {
 function CheckoutPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const errorRef = useRef<HTMLDivElement>(null);
   const orderListRef = useRef<HTMLDivElement>(null);
   const address2Ref = useRef<HTMLInputElement>(null);
   const postcodeRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
+  const productSectionRef = useRef<HTMLDivElement>(null);
+  const buyerNameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const addressRef = useRef<HTMLDivElement>(null);
 
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [nameInputs, setNameInputs] = useState<Record<ProductId, string>>({
@@ -134,12 +137,23 @@ function CheckoutPage() {
     }
   }, [searchParams]);
 
-  /* 에러 시 스크롤 */
-  useEffect(() => {
-    if (Object.keys(errors).length > 0 && errorRef.current) {
-      errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const scrollToFirstError = (errs: FormErrors) => {
+    const fieldRefs: [keyof FormErrors, React.RefObject<HTMLElement | null>][] = [
+      ['items', productSectionRef],
+      ['buyerName', buyerNameRef],
+      ['phone', phoneRef],
+      ['zipcode', addressRef],
+    ];
+    for (const [key, ref] of fieldRefs) {
+      if (errs[key] && ref.current) {
+        ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if ('focus' in ref.current && typeof ref.current.focus === 'function') {
+          setTimeout(() => ref.current?.focus(), 400);
+        }
+        return;
+      }
     }
-  }, [errors]);
+  };
 
   /* ---------- 상품 추가/제거 ---------- */
 
@@ -243,6 +257,7 @@ function CheckoutPage() {
     const errs = validate();
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
+      scrollToFirstError(errs);
       return;
     }
 
@@ -305,7 +320,12 @@ function CheckoutPage() {
 
         <form onSubmit={handleSubmit}>
           {/* ── 1. 상품 선택 ── */}
-          <div className="space-y-6 mb-10">
+          <div ref={productSectionRef} className="space-y-6 mb-10">
+            {errors.items && (
+              <p className="font-plex text-sm text-seal font-medium">
+                · {errors.items}
+              </p>
+            )}
             {PRODUCTS.map((product) => {
               const nameError = nameErrors[product.id];
 
@@ -441,26 +461,28 @@ function CheckoutPage() {
 
             <Field label="주문자 이름" error={errors.buyerName}>
               <input
+                ref={buyerNameRef}
                 type="text"
                 value={form.buyerName}
                 onChange={(e) => updateField('buyerName', e.target.value)}
                 placeholder="홍길동"
-                className={inputClass}
+                className={`${inputClass} ${errors.buyerName ? 'border-seal' : ''}`}
               />
             </Field>
 
             <Field label="연락처" error={errors.phone}>
               <input
+                ref={phoneRef}
                 type="tel"
                 value={form.phone}
                 onChange={(e) => updateField('phone', e.target.value)}
                 placeholder="01012345678"
-                className={inputClass}
+                className={`${inputClass} ${errors.phone ? 'border-seal' : ''}`}
               />
             </Field>
 
             <Field label="주소" error={errors.zipcode}>
-              <div className="flex gap-2 mb-2">
+              <div ref={addressRef} className="flex gap-2 mb-2">
                 <input
                   type="text"
                   value={form.zipcode}
@@ -588,10 +610,7 @@ function CheckoutPage() {
 
           {/* ── 에러 통합 표시 ── */}
           {allErrorMessages.length > 0 && (
-            <div
-              ref={errorRef}
-              className="border-2 border-seal bg-seal/10 p-4 mb-6 space-y-1"
-            >
+            <div className="border-2 border-seal bg-seal/10 p-4 mb-6 space-y-1">
               <p className="font-plex text-sm font-bold text-seal">
                 입력을 확인해주세요
               </p>
@@ -760,7 +779,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block font-plex text-sm text-soft mb-2">{label}</label>
+      <label className={`block font-plex text-sm mb-2 ${error ? 'text-seal font-medium' : 'text-soft'}`}>
+        {label}
+      </label>
       {children}
       {error && (
         <p className="font-plex text-xs text-seal mt-1.5">{error}</p>
