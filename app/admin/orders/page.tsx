@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { createServerClient } from '@/lib/supabase-server';
+import { STATUS_LABEL } from '@/lib/order-status';
 
 async function getOrders() {
   const supabase = await createServerClient();
@@ -16,16 +17,6 @@ async function getOrders() {
     .limit(100);
   return data ?? [];
 }
-
-const STATUS_LABEL: Record<string, string> = {
-  ghost_received: '고스트 접수',
-  pending_payment: '결제 대기',
-  paid: '결제 완료',
-  brewing: '담그는 중',
-  engraving: '이름 새기는 중',
-  shipped: '발송',
-  cancelled: '취소',
-};
 
 export default async function OrdersPage() {
   let orders: Awaited<ReturnType<typeof getOrders>> = [];

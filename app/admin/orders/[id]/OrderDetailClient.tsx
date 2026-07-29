@@ -3,21 +3,8 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase';
 import { useParams } from 'next/navigation';
-
-const STATUS_OPTIONS = [
-  'ghost_received', 'pending_payment', 'paid',
-  'brewing', 'engraving', 'shipped', 'cancelled',
-];
-
-const STATUS_LABEL: Record<string, string> = {
-  ghost_received: '고스트 접수',
-  pending_payment: '결제 대기',
-  paid: '결제 완료',
-  brewing: '담그는 중',
-  engraving: '이름 새기는 중',
-  shipped: '발송',
-  cancelled: '취소',
-};
+import { STATUS_OPTIONS, STATUS_LABEL } from '@/lib/order-status';
+import { PRODUCTS } from '@/lib/products';
 
 type OrderItem = {
   id: string;
@@ -73,19 +60,46 @@ export default function OrderDetailClient() {
     load();
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const updateStatus = async (status: string) => {
+  const updateStatus = async (newStatus: string) => {
+    const prevStatus = order?.status;
     setSaving(true);
-    await supabase.from('orders').update({ status }).eq('id', id);
-    setOrder((prev) => prev ? { ...prev, status } : prev);
+    setOrder((prev) => prev ? { ...prev, status: newStatus } : prev);
+    const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', id);
+    if (error) {
+      setOrder((prev) => prev ? { ...prev, status: prevStatus ?? '' } : prev);
+      alert('상태 변경에 실패했습니다.');
+    }
     setSaving(false);
   };
 
   const markContacted = async () => {
     setSaving(true);
     const now = new Date().toISOString();
-    await supabase.from('orders').update({ contacted_at: now }).eq('id', id);
-    setOrder((prev) => prev ? { ...prev, contacted_at: now } : prev);
+    const { error } = await supabase.from('orders').update({ contacted_at: now }).eq('id', id);
+    if (error) {
+      alert('연락 완료 기록에 실패했습니다.');
+    } else {
+      setOrder((prev) => prev ? { ...prev, contacted_at: now } : prev);
+    }
     setSaving(false);
+  };
+
+  const [memo, setMemo] = useState('');
+  const [memoSaving, setMemoSaving] = useState(false);
+
+  useEffect(() => {
+    if (order?.admin_memo != null) setMemo(order.admin_memo);
+  }, [order?.admin_memo]);
+
+  const saveMemo = async () => {
+    setMemoSaving(true);
+    const { error } = await supabase.from('orders').update({ admin_memo: memo }).eq('id', id);
+    if (error) {
+      alert('메모 저장에 실패했습니다.');
+    } else {
+      setOrder((prev) => prev ? { ...prev, admin_memo: memo } : prev);
+    }
+    setMemoSaving(false);
   };
 
   if (!order) {
@@ -148,7 +162,9 @@ export default function OrderDetailClient() {
             <h3 className="font-bold text-sm text-soft mb-3">각인 이름</h3>
             {order.order_items.map((item) => (
               <div key={item.id} className="flex items-center gap-3 py-2 border-b border-rule/50">
-                <span className="text-sm text-soft">{item.product_id}</span>
+                <span className="text-sm text-soft">
+                  {PRODUCTS.find((p) => p.id === item.product_id)?.name ?? item.product_id}
+                </span>
                 <span className="font-pen text-3xl text-seal">{item.engrave_name}</span>
                 <span className="text-xs text-soft ml-auto">x{item.quantity}</span>
               </div>
@@ -184,6 +200,26 @@ export default function OrderDetailClient() {
                 연락 완료 기록
               </button>
             )}
+          </div>
+
+          <div>
+            <h3 className="font-bold text-sm text-soft mb-2">관리자 메모</h3>
+            <textarea
+              value={memo}
+              onChange={(e) => setMemo(e.target.value)}
+              rows={3}
+              className="w-full border border-rule px-3 py-2 text-sm bg-white outline-none
+                         focus:border-ink transition-colors resize-y"
+              placeholder="내부 메모 (고객에게 보이지 않음)"
+            />
+            <button
+              onClick={saveMemo}
+              disabled={memoSaving || memo === (order.admin_memo ?? '')}
+              className="mt-2 px-4 py-2 bg-ink text-paper text-sm hover:bg-seal
+                         transition-colors disabled:opacity-50"
+            >
+              {memoSaving ? '저장 중...' : '메모 저장'}
+            </button>
           </div>
         </div>
       </div>

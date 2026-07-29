@@ -31,10 +31,14 @@ export default function LabelsClient() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const markWritten = async (itemId: string) => {
-    await supabase
+    const { error } = await supabase
       .from('order_items')
       .update({ label_written: true })
       .eq('id', itemId);
+    if (error) {
+      alert('저장에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
     setItems((prev) => prev.filter((i) => i.item_id !== itemId));
   };
 

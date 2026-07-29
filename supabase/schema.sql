@@ -267,22 +267,22 @@ spend AS (
 SELECT
   b.visitors,
   b.cart_clicks,
-  b.order_submits,
-  o.total_orders,
+  o.total_orders                                    AS orders,
+  o.subscribe_count                                 AS sub_intent,
   o.total_revenue,
   s.ad_spend,
 
-  -- 구매 클릭률 (add_to_cart / page_view)
+  -- 구매 클릭률 (add_to_cart / page_view) — UI: purchase_click_rate
   CASE WHEN b.visitors > 0
     THEN round(b.cart_clicks::numeric / b.visitors * 100, 2)
     ELSE 0
   END AS purchase_click_rate,
 
-  -- CAC (광고비 / 주문수)
+  -- CAC (광고비 / 주문수) — UI: cac_estimate
   CASE WHEN o.total_orders > 0
     THEN round(s.ad_spend::numeric / o.total_orders, 0)
     ELSE 0
-  END AS cac,
+  END AS cac_estimate,
 
   -- 구독 의사 비율
   CASE WHEN o.total_orders > 0
@@ -290,15 +290,20 @@ SELECT
     ELSE 0
   END AS subscribe_rate,
 
-  -- 자동 판정
+  -- 자동 판정 — UI: verdict (5종 대문자, lib/config.ts 임계값 일치)
   CASE
-    WHEN b.visitors < 50 THEN 'insufficient_data'
-    WHEN (b.cart_clicks::numeric / NULLIF(b.visitors, 0) * 100) >= 5
-         AND (o.total_orders > 0 AND s.ad_spend::numeric / o.total_orders <= 20000)
-         AND (o.subscribe_count::numeric / NULLIF(o.total_orders, 0) * 100) >= 30
-    THEN 'pass'
-    ELSE 'fail'
-  END AS judgement
+    WHEN b.visitors < 100 THEN 'INSUFFICIENT_DATA'
+    WHEN b.visitors > 0
+         AND (b.cart_clicks::numeric / b.visitors * 100) < 3
+    THEN 'FAIL_LOW_INTENT'
+    WHEN o.total_orders > 0
+         AND (s.ad_spend::numeric / o.total_orders) > 20000
+    THEN 'FAIL_HIGH_CAC'
+    WHEN o.total_orders > 0 AND o.subscribe_count = 0
+    THEN 'FAIL_NO_REPEAT'
+    WHEN o.total_orders = 0 THEN 'INSUFFICIENT_DATA'
+    ELSE 'PASS'
+  END AS verdict
 
 FROM base b, order_stats o, spend s;
 
@@ -308,7 +313,7 @@ FROM base b, order_stats o, spend s;
 CREATE OR REPLACE VIEW product_distribution AS
 SELECT
   oi.product_id,
-  p.name                                          AS product_name,
+  p.name,                                         -- UI: name
   count(*)                                        AS order_count,
   sum(oi.quantity)                                 AS total_qty,
   round(
@@ -325,8 +330,8 @@ ORDER BY total_qty DESC;
 -- ------------------------------------------------------------
 CREATE OR REPLACE VIEW ad_performance AS
 SELECT
-  e.utm_source,
-  count(*) FILTER (WHERE e.type = 'page_view')    AS visits,
+  e.utm_source                                     AS ad,       -- UI: ad
+  count(*) FILTER (WHERE e.type = 'page_view')     AS visitors, -- UI: visitors
   count(*) FILTER (WHERE e.type = 'add_to_cart')   AS cart_clicks,
   count(*) FILTER (WHERE e.type = 'order_submit')  AS order_submits,
   CASE WHEN count(*) FILTER (WHERE e.type = 'page_view') > 0
@@ -335,7 +340,7 @@ SELECT
       / count(*) FILTER (WHERE e.type = 'page_view') * 100, 2
     )
     ELSE 0
-  END AS conversion_rate
+  END AS click_rate                                             -- UI: click_rate
 FROM events e
 WHERE e.utm_source IS NOT NULL
 GROUP BY e.utm_source
@@ -368,7 +373,10 @@ SELECT
   l.source,
   l.created_at,
   o.order_no,
-  o.total
+  o.total,
+  (SELECT string_agg(oi.engrave_name, ', ')
+   FROM order_items oi WHERE oi.order_id = o.id
+  )                                                AS engrave_names  -- UI: engrave_names
 FROM leads l
 LEFT JOIN orders o ON o.id = l.order_id
 WHERE l.contacted_at IS NULL
@@ -388,7 +396,7 @@ SELECT
   o.status,
   oi.label_printed,
   oi.label_written,
-  o.created_at   AS order_date
+  o.created_at                                     -- UI: created_at
 FROM order_items oi
 JOIN orders o   ON o.id  = oi.order_id
 JOIN products p ON p.id  = oi.product_id
@@ -401,7 +409,7 @@ ORDER BY o.created_at ASC;
 -- ------------------------------------------------------------
 CREATE OR REPLACE VIEW daily_metrics AS
 SELECT
-  date_trunc('day', created_at)::date              AS day,
+  date_trunc('day', created_at)::date              AS date,     -- UI: date
   count(*) FILTER (WHERE type = 'page_view')       AS visitors,
   count(*) FILTER (WHERE type = 'add_to_cart')     AS cart_clicks,
   count(*) FILTER (WHERE type = 'order_submit')    AS orders,
@@ -409,8 +417,8 @@ SELECT
   count(*) FILTER (WHERE type = 'name_input_complete') AS name_completes,
   count(*) FILTER (WHERE type = 'checkout_start')  AS checkout_starts
 FROM events
-GROUP BY day
-ORDER BY day DESC;
+GROUP BY date
+ORDER BY date DESC;
 
 -- ------------------------------------------------------------
 -- 4-8. hourly_pattern  시간대별 방문 패턴
@@ -418,7 +426,7 @@ ORDER BY day DESC;
 CREATE OR REPLACE VIEW hourly_pattern AS
 SELECT
   extract(hour FROM created_at)::integer AS hour,
-  count(*)                               AS visitor_count
+  count(*)                               AS visitors  -- UI: visitors
 FROM events
 WHERE type = 'page_view'
 GROUP BY hour
@@ -455,37 +463,37 @@ ORDER BY reached DESC;
 CREATE OR REPLACE VIEW funnel AS
 WITH steps AS (
   SELECT
-    count(DISTINCT session_id) FILTER (WHERE type = 'page_view')           AS s1_page_view,
-    count(DISTINCT session_id) FILTER (WHERE type = 'name_input_start')    AS s2_name_start,
-    count(DISTINCT session_id) FILTER (WHERE type = 'name_input_complete') AS s3_name_complete,
-    count(DISTINCT session_id) FILTER (WHERE type = 'add_to_cart')         AS s4_add_to_cart,
-    count(DISTINCT session_id) FILTER (WHERE type = 'checkout_start')      AS s5_checkout_start,
-    count(DISTINCT session_id) FILTER (WHERE type = 'order_submit')        AS s6_order_submit
+    count(DISTINCT session_id) FILTER (WHERE type = 'page_view')           AS step1_visit,
+    count(DISTINCT session_id) FILTER (WHERE type = 'name_input_start')    AS step2_name_start,
+    count(DISTINCT session_id) FILTER (WHERE type = 'name_input_complete') AS step3_name_complete,
+    count(DISTINCT session_id) FILTER (WHERE type = 'add_to_cart')         AS step4_add_cart,
+    count(DISTINCT session_id) FILTER (WHERE type = 'checkout_start')      AS step5_checkout,
+    count(DISTINCT session_id) FILTER (WHERE type = 'order_submit')        AS step6_order
   FROM events
 )
 SELECT
-  s1_page_view,
-  s2_name_start,
-  s3_name_complete,
-  s4_add_to_cart,
-  s5_checkout_start,
-  s6_order_submit,
+  step1_visit,
+  step2_name_start,
+  step3_name_complete,
+  step4_add_cart,
+  step5_checkout,
+  step6_order,
 
   -- 단계별 전환율 (직전 대비)
-  CASE WHEN s1_page_view > 0
-    THEN round(s2_name_start::numeric    / s1_page_view     * 100, 1) ELSE 0 END AS rate_1_2,
-  CASE WHEN s2_name_start > 0
-    THEN round(s3_name_complete::numeric / s2_name_start    * 100, 1) ELSE 0 END AS rate_2_3,
-  CASE WHEN s3_name_complete > 0
-    THEN round(s4_add_to_cart::numeric   / s3_name_complete * 100, 1) ELSE 0 END AS rate_3_4,
-  CASE WHEN s4_add_to_cart > 0
-    THEN round(s5_checkout_start::numeric / s4_add_to_cart  * 100, 1) ELSE 0 END AS rate_4_5,
-  CASE WHEN s5_checkout_start > 0
-    THEN round(s6_order_submit::numeric  / s5_checkout_start * 100, 1) ELSE 0 END AS rate_5_6,
+  CASE WHEN step1_visit > 0
+    THEN round(step2_name_start::numeric    / step1_visit       * 100, 1) ELSE 0 END AS rate_1_2,
+  CASE WHEN step2_name_start > 0
+    THEN round(step3_name_complete::numeric / step2_name_start  * 100, 1) ELSE 0 END AS rate_2_3,
+  CASE WHEN step3_name_complete > 0
+    THEN round(step4_add_cart::numeric      / step3_name_complete * 100, 1) ELSE 0 END AS rate_3_4,
+  CASE WHEN step4_add_cart > 0
+    THEN round(step5_checkout::numeric      / step4_add_cart    * 100, 1) ELSE 0 END AS rate_4_5,
+  CASE WHEN step5_checkout > 0
+    THEN round(step6_order::numeric         / step5_checkout    * 100, 1) ELSE 0 END AS rate_5_6,
 
   -- 전체 전환율 (page_view → order_submit)
-  CASE WHEN s1_page_view > 0
-    THEN round(s6_order_submit::numeric / s1_page_view * 100, 2) ELSE 0 END AS overall_rate
+  CASE WHEN step1_visit > 0
+    THEN round(step6_order::numeric / step1_visit * 100, 2) ELSE 0 END AS overall_rate
 
 FROM steps;
 

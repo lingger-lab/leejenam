@@ -47,8 +47,8 @@ export function FounderLetter() {
           </p>
         </div>
 
-        <div className="mt-10 flex items-center justify-end gap-3">
-          <span className="font-pen text-2xl text-seal">—</span>
+        <div className="mt-10 flex items-center justify-end gap-4">
+          <span className="font-batang text-sm text-soft tracking-wide">대표</span>
           <Image
             src="/img/signature.png"
             alt="이제남 서명"
