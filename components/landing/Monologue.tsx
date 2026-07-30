@@ -7,14 +7,14 @@ export function Monologue() {
       <div className="max-w-md lg:max-w-xl mx-auto text-center relative z-10">
         <blockquote className="font-batang text-paper leading-loose">
           <span
-            className="hero-rise hero-shimmer text-2xl font-bold inline-block"
+            className="hero-rise hero-shimmer text-2xl lg:text-5xl font-bold inline-block"
             style={{ animationDelay: '0.3s' }}
           >
             제철 과일이 주는 영양,
           </span>
           <br />
           <span
-            className="hero-rise text-xl inline-block"
+            className="hero-rise text-xl lg:text-3xl inline-block"
             style={{ animationDelay: '0.7s' }}
           >
             그대로 담았습니다.
@@ -27,7 +27,7 @@ export function Monologue() {
         />
 
         <p
-          className="hero-rise font-batang text-gold text-base leading-loose"
+          className="hero-rise font-batang text-gold text-base lg:text-lg leading-loose"
           style={{ animationDelay: '1.4s' }}
         >
           없는 효능을 지어내지 않습니다.
