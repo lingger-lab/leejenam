@@ -1,5 +1,6 @@
 import { Monologue } from '@/components/landing/Monologue';
 import { FruitBanner } from '@/components/landing/FruitBanner';
+import { Serving } from '@/components/landing/Serving';
 import { FounderLetter } from '@/components/landing/FounderLetter';
 import { Credentials } from '@/components/landing/Credentials';
 import { Maker } from '@/components/landing/Maker';
@@ -24,6 +25,7 @@ export default function Home() {
       <PageTracker />
       <Monologue />
       <FadeUp><FruitBanner /></FadeUp>
+      <FadeUp><Serving /></FadeUp>
       <FadeUp><FounderLetter /></FadeUp>
       <FadeUp><Credentials /></FadeUp>
       <FadeUp><Maker /></FadeUp>
