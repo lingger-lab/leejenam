@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-export const alt = '이제남 — 주문받고 담그는 과일청. 라벨에 드시는 분 이름을 새깁니다.';
+export const alt = '이제남 — 이름을 새기는 과일청. 제철 과일로 주문받고 담급니다.';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -56,7 +56,7 @@ export default async function Image() {
               marginBottom: 40,
             }}
           >
-            이제, 오늘 담갔습니다
+            이름을 새기는 과일청
           </div>
 
           <div
@@ -75,7 +75,7 @@ export default async function Image() {
               color: '#5E564C',
             }}
           >
-            주문받고 담그는 과일청 · 라벨에 이름을 새깁니다
+            제철 과일, 주문받고 담급니다
           </div>
         </div>
       </div>
