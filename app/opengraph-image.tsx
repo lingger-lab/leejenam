@@ -39,10 +39,11 @@ export default async function Image() {
           <div
             style={{
               fontFamily: 'GowunBatang',
-              fontSize: 120,
+              fontSize: 160,
               fontWeight: 700,
               color: '#1B1917',
-              marginBottom: 16,
+              marginBottom: 20,
+              letterSpacing: '0.05em',
             }}
           >
             이제남
@@ -51,9 +52,9 @@ export default async function Image() {
           <div
             style={{
               fontFamily: 'GowunBatang',
-              fontSize: 36,
+              fontSize: 48,
               color: '#7A2E22',
-              marginBottom: 40,
+              marginBottom: 44,
             }}
           >
             이름을 새기는 과일청
@@ -61,17 +62,17 @@ export default async function Image() {
 
           <div
             style={{
-              width: 60,
+              width: 80,
               height: 1,
               backgroundColor: '#CCC2AE',
-              marginBottom: 40,
+              marginBottom: 44,
             }}
           />
 
           <div
             style={{
               fontFamily: 'GowunBatang',
-              fontSize: 26,
+              fontSize: 34,
               color: '#5E564C',
             }}
           >
