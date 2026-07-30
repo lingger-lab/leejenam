@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function Credentials() {
   return (
     <section id="credentials" className="bg-paper py-20 px-6">
@@ -21,6 +23,22 @@ export function Credentials() {
           <p>
             제가 아는 건 하나입니다. 오늘 담갔다는 것.
           </p>
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <div className="w-[70%]">
+            <Image
+              src="/license.webp"
+              alt="이제남 영양사 면허 증명서"
+              width={600}
+              height={640}
+              className="w-full h-auto border border-rule shadow-sm"
+              loading="lazy"
+            />
+            <p className="font-plex text-xs text-soft text-center mt-3">
+              영양사 면허 제63606호 · 1996년 취득
+            </p>
+          </div>
         </div>
       </div>
     </section>

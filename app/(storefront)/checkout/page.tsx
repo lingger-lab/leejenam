@@ -439,9 +439,7 @@ function CheckoutPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-plex text-sm text-soft">배송비</span>
-                  <span className="font-plex text-sm text-ink">
-                    {SHIPPING_FEE.toLocaleString()}원
-                  </span>
+                  <span className="font-plex text-sm text-ink">무료</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-rule">
                   <span className="font-plex text-sm font-medium text-ink">총액</span>

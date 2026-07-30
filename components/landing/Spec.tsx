@@ -18,7 +18,7 @@ export function Spec() {
               ['원산지', '국내산 (경남 창원)'],
               ['보관방법', '직사광선을 피해 서늘한 곳 보관. 개봉 후 냉장보관.'],
               ['유통기한', '제조일로부터 3개월'],
-              ['배송', '주문 후 3~4일'],
+              ['배송', '주문 후 3~4일 · 배송비 무료'],
             ].map(([label, value]) => (
               <tr key={label}>
                 <td className="py-3 pr-4 text-soft w-24 align-top whitespace-nowrap">

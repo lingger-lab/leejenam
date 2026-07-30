@@ -102,8 +102,11 @@ export function Shop() {
                     {PRICE.toLocaleString()}원
                   </span>
                 </div>
-                <p className="text-soft text-sm font-plex mb-4">
+                <p className="text-soft text-sm font-plex mb-2">
                   {product.note}
+                </p>
+                <p className="text-soft text-xs font-plex mb-4">
+                  배송비 무료 · 주문 후 3~4일
                 </p>
                 <Link
                   href={`/checkout?product=${product.id}`}

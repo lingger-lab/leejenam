@@ -145,6 +145,15 @@ export function Hero() {
         >
           이름 새겨서 주문하기
         </a>
+        <p className="mt-4 font-plex text-sm text-soft">
+          또는 전화 한 통이면 됩니다
+        </p>
+        <a
+          href="tel:010-8339-5585"
+          className="font-plex text-base text-seal font-medium hover:underline"
+        >
+          010-8339-5585
+        </a>
       </div>
     </section>
   );
