@@ -47,6 +47,9 @@ export function Footer() {
         >
           010-8339-5585
         </a>
+        <p className="font-plex text-xs text-paper/50 mt-2">
+          농협 947-02-126434 예금주 이제남
+        </p>
 
         {/* 구분선 */}
         <div className="w-8 h-px bg-paper/20 mx-auto my-8" />
