@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function Rent() {
   return (
     <section id="facility" className="bg-paper-2 py-20 px-6">
@@ -24,6 +26,22 @@ export function Rent() {
             <br />
             모든 공정을 직접 관리합니다.
           </p>
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <div className="w-[70%]">
+            <Image
+              src="/haccp_license.webp"
+              alt="임차 제조 시설 HACCP 인증서"
+              width={600}
+              height={850}
+              className="w-full h-auto border border-rule shadow-sm"
+              loading="lazy"
+            />
+            <p className="font-plex text-xs text-soft text-center mt-3">
+              임차 제조 시설 HACCP 인증 제2024-2-0159호 · 유효기간 2027.05
+            </p>
+          </div>
         </div>
       </div>
     </section>
