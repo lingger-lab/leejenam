@@ -565,13 +565,11 @@ function CheckoutPage() {
                 {PRICE.toLocaleString()}원 / 월 · 배송비 무료
               </p>
               <p className="font-plex text-sm text-soft mt-3 leading-relaxed">
-                그 계절에 담글 수 있는 청을
+                영양사가 그 달의 제철 과일청을 골라 보내드립니다.
                 <br />
-                영양사인 제가 골라서 보내드립니다.
+                입맛에 맞게 단맛도 조절해드립니다.
                 <br />
-                덜 달게, 시게 — 입맛도 맞춰드립니다.
-                <br />
-                매달 고르실 필요 없이, 제철 것을 보내드립니다.
+                구독하시면 다음 달 맛보기청 100g을 함께 보내드립니다.
               </p>
               <label className="flex items-start gap-3 cursor-pointer mt-4">
                 <input

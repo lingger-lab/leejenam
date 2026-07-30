@@ -78,7 +78,7 @@ export function Shop() {
             오늘 담글 수 있는 청
           </h2>
           <p className="text-soft text-sm mt-3 font-plex">
-            26,000원 · 500ml · 주문 후 3~4일
+            26,000원 · 500ml · 배송비 무료
           </p>
         </div>
 
