@@ -100,7 +100,7 @@ export function Shop() {
           {PRODUCTS.map((product, index) => (
             <div
               key={product.id}
-              className="border border-rule bg-white-2"
+              className="border border-rule bg-white-2 flex flex-col"
             >
               <FlipCard
                 src={product.src}
@@ -108,7 +108,7 @@ export function Shop() {
                 alt={product.name}
                 index={index}
               />
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-baseline justify-between mb-1">
                   <h3 className="font-batang font-bold text-lg text-ink">
                     {product.name}
@@ -127,7 +127,7 @@ export function Shop() {
                   href={`/checkout?product=${product.id}`}
                   className="block w-full py-3 bg-ink text-paper text-center
                              font-plex font-medium text-sm tracking-wide
-                             hover:bg-seal active:bg-seal transition-colors"
+                             hover:bg-seal active:bg-seal transition-colors mt-auto"
                 >
                   주문하기
                 </Link>
