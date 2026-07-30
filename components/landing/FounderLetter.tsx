@@ -5,7 +5,7 @@ export function FounderLetter() {
     <section id="founder" className="bg-paper py-24 px-6">
       <div className="max-w-md mx-auto">
         <p className="font-batang text-seal text-sm tracking-widest mb-8">
-          이걸 만든 이유.
+          제철 과일청을 만든 이유.
         </p>
 
         <div className="font-batang text-base text-ink leading-loose space-y-4 text-left">
