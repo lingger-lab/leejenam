@@ -187,6 +187,10 @@ export function Shop() {
           >
             010-8339-5585
           </a>
+          <br />
+          <span className="text-xs text-soft">
+            농협 947-02-126434 예금주 이제남
+          </span>
         </p>
       </div>
     </section>
