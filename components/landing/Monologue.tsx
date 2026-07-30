@@ -1,4 +1,69 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
+const LINE1 = '제철 과일이 주는 영양,';
+const LINE2 = '그대로 담았습니다.';
+
 export function Monologue() {
+  const [typed1, setTyped1] = useState('');
+  const [typed2, setTyped2] = useState('');
+  const [phase, setPhase] = useState<'idle' | 'typing1' | 'typing2' | 'done'>(
+    'idle',
+  );
+  const [showBody, setShowBody] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) {
+      setTyped1(LINE1);
+      setTyped2(LINE2);
+      setPhase('done');
+      setShowBody(true);
+      return;
+    }
+
+    let cancelled = false;
+    const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+    (async () => {
+      await wait(500);
+      if (cancelled) return;
+      setPhase('typing1');
+
+      for (let i = 1; i <= LINE1.length; i++) {
+        if (cancelled) return;
+        setTyped1(LINE1.slice(0, i));
+        await wait(40);
+      }
+      if (cancelled) return;
+
+      await wait(300);
+      if (cancelled) return;
+      setPhase('typing2');
+
+      for (let i = 1; i <= LINE2.length; i++) {
+        if (cancelled) return;
+        setTyped2(LINE2.slice(0, i));
+        await wait(40);
+      }
+      if (cancelled) return;
+      setPhase('done');
+
+      await wait(500);
+      if (cancelled) return;
+      setShowBody(true);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const showCursor1 = phase === 'typing1';
+  const showCursor2 = phase === 'typing2';
+  const shimmer = phase === 'done' || phase === 'typing2';
+
   return (
     <section
       id="hook"
@@ -7,28 +72,36 @@ export function Monologue() {
       <div className="max-w-md lg:max-w-xl mx-auto text-center relative z-10">
         <blockquote className="font-batang text-paper leading-loose">
           <span
-            className="hero-rise hero-shimmer text-2xl lg:text-5xl font-bold inline-block"
-            style={{ animationDelay: '0.3s' }}
+            className={`text-2xl lg:text-5xl font-bold inline-block ${shimmer ? 'hero-shimmer' : ''}`}
           >
-            제철 과일이 주는 영양,
+            {typed1}
+            {showCursor1 && (
+              <span className="cursor-blink font-light">|</span>
+            )}
           </span>
-          <br />
-          <span
-            className="hero-rise text-xl lg:text-3xl inline-block"
-            style={{ animationDelay: '0.7s' }}
-          >
-            그대로 담았습니다.
-          </span>
+          {typed1.length === LINE1.length && (
+            <>
+              <br />
+              <span className="text-xl lg:text-3xl inline-block">
+                {typed2}
+                {showCursor2 && (
+                  <span className="cursor-blink font-light">|</span>
+                )}
+              </span>
+            </>
+          )}
         </blockquote>
 
         <div
-          className="hero-rise w-8 h-px bg-paper/30 mx-auto my-10"
-          style={{ animationDelay: '1.1s' }}
+          className={`w-8 h-px bg-paper/30 mx-auto my-10 transition-transform duration-700 origin-center ${
+            showBody ? 'scale-x-100' : 'scale-x-0'
+          }`}
         />
 
         <p
-          className="hero-rise font-batang text-gold text-base lg:text-lg leading-loose"
-          style={{ animationDelay: '1.4s' }}
+          className={`font-batang text-gold text-base lg:text-lg leading-loose transition-opacity duration-700 ${
+            showBody ? 'opacity-100' : 'opacity-0'
+          }`}
         >
           없는 효능을 지어내지 않습니다.
           <br />
@@ -41,8 +114,9 @@ export function Monologue() {
       </div>
 
       <p
-        className="hero-rise absolute bottom-8 left-1/2 -translate-x-1/2 font-plex text-paper/40 text-xs animate-bounce z-10"
-        style={{ animationDelay: '2.0s' }}
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 font-plex text-paper/60 text-xs z-10 transition-opacity duration-700 ${
+          showBody ? 'opacity-100 motion-safe:animate-bounce' : 'opacity-0'
+        }`}
       >
         아래로 ↓
       </p>

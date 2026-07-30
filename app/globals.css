@@ -80,7 +80,7 @@ html {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 4s ease-in-out 2s infinite;
+  animation: shimmer 4s ease-in-out 2s 2;
 }
 
 /* 스크롤 페이드업 */

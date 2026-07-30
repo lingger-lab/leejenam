@@ -23,7 +23,12 @@ export function Header() {
     >
       <div className="max-w-lg lg:max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
         {/* 브랜드 */}
-        <Link href="/" className="font-batang font-bold text-xl text-ink">
+        <Link
+          href="/"
+          className={`font-batang font-bold text-xl transition-colors ${
+            scrolled ? 'text-ink' : 'text-paper'
+          }`}
+        >
           이제남
         </Link>
 
@@ -31,7 +36,11 @@ export function Header() {
         <nav>
           <Link
             href="/checkout"
-            className="font-plex text-sm text-soft hover:text-ink transition-colors"
+            className={`font-plex text-sm px-4 py-2 transition-colors ${
+              scrolled
+                ? 'border border-seal text-seal hover:bg-seal hover:text-white-2'
+                : 'border border-paper/30 text-paper/80 hover:text-paper hover:border-paper/60'
+            }`}
           >
             주문하기
           </Link>

@@ -9,28 +9,28 @@ export function Footer() {
         <p className="text-gold text-xs mt-1.5">이제, 오늘 담갔습니다</p>
 
         {/* 네비게이션 */}
-        <div className="flex items-center justify-center gap-6 my-8">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 my-8">
           <Link
             href="/#founder"
-            className="font-plex text-xs text-paper/50 hover:text-paper/70 transition-colors"
+            className="font-plex text-sm text-paper/70 hover:text-paper py-2 transition-colors"
           >
             회사소개
           </Link>
           <Link
             href="/terms"
-            className="font-plex text-xs text-paper/50 hover:text-paper/70 transition-colors"
+            className="font-plex text-sm text-paper/70 hover:text-paper py-2 transition-colors"
           >
             이용약관
           </Link>
           <Link
             href="/privacy"
-            className="font-plex text-xs text-paper/50 hover:text-paper/70 transition-colors"
+            className="font-plex text-sm text-paper/70 hover:text-paper py-2 transition-colors"
           >
             개인정보처리방침
           </Link>
           <Link
             href="/#shop"
-            className="font-plex text-xs text-paper/50 hover:text-paper/70 transition-colors"
+            className="font-plex text-sm text-paper/70 hover:text-paper py-2 transition-colors"
           >
             이용안내
           </Link>
@@ -47,7 +47,7 @@ export function Footer() {
         >
           010-8339-5585
         </a>
-        <p className="font-plex text-xs text-paper/50 mt-2">
+        <p className="font-plex text-sm text-paper/70 mt-2">
           농협 947-02-126434 예금주 이제남
         </p>
 
@@ -55,7 +55,7 @@ export function Footer() {
         <div className="w-8 h-px bg-paper/20 mx-auto my-8" />
 
         {/* 사업자 정보 */}
-        <div className="font-plex text-xs text-paper/50 leading-loose space-y-1">
+        <div className="font-plex text-xs text-paper/70 leading-loose space-y-1">
           <p>농업회사법인(주)제이엔 · 대표 이제남</p>
           <p>사업자등록번호 587-87-03728</p>
           <p>경상남도 창원시 마산합포구 구산면 옥곡1길 77</p>

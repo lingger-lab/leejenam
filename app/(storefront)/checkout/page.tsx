@@ -713,7 +713,6 @@ function FlipCard({
   index?: number;
 }) {
   const [flipped, setFlipped] = useState(false);
-  const pausedRef = useRef(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -724,19 +723,14 @@ function FlipCard({
     if (!el) return;
 
     let timeoutId: ReturnType<typeof setTimeout>;
-    let intervalId: ReturnType<typeof setInterval>;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           observer.disconnect();
-          const initialDelay = (3 + index * 2) * 1000;
           timeoutId = setTimeout(() => {
-            if (!pausedRef.current) setFlipped(true);
-            intervalId = setInterval(() => {
-              if (!pausedRef.current) setFlipped((prev) => !prev);
-            }, 3_000);
-          }, initialDelay);
+            setFlipped(true);
+          }, (3 + index * 2) * 1000);
         }
       },
       { threshold: 0.3 },
@@ -747,60 +741,36 @@ function FlipCard({
     return () => {
       observer.disconnect();
       clearTimeout(timeoutId);
-      clearInterval(intervalId);
     };
   }, [index]);
 
-  const handleClick = () => {
-    pausedRef.current = true;
-    setFlipped((prev) => !prev);
-  };
-
   return (
-    <div
-      ref={cardRef}
-      className="relative w-full aspect-[4/5] cursor-pointer select-none"
-      style={{ perspective: '1000px' }}
-      onClick={handleClick}
-    >
-      <div
-        className="relative w-full h-full motion-safe:transition-transform motion-safe:duration-700"
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        }}
+    <div ref={cardRef} className="relative w-full aspect-[4/5]">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-contain motion-safe:transition-opacity motion-safe:duration-700"
+        style={{ opacity: flipped ? 0 : 1 }}
+        sizes="(max-width: 768px) 100vw, 512px"
+      />
+      <Image
+        src={backSrc}
+        alt={`${alt} 뒷면`}
+        fill
+        className="object-contain motion-safe:transition-opacity motion-safe:duration-700"
+        style={{ opacity: flipped ? 1 : 0 }}
+        sizes="(max-width: 768px) 100vw, 512px"
+      />
+      <button
+        type="button"
+        onClick={() => setFlipped((prev) => !prev)}
+        aria-pressed={flipped}
+        className="absolute bottom-2 right-2 font-plex text-xs text-soft bg-paper/80
+                   px-2 py-1 border border-rule hover:bg-paper transition-colors"
       >
-        <div
-          className="absolute inset-0"
-          style={{ backfaceVisibility: 'hidden' }}
-        >
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 512px"
-          />
-        </div>
-        <div
-          className="absolute inset-0"
-          style={{
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
-          }}
-        >
-          <Image
-            src={backSrc}
-            alt={`${alt} 뒷면`}
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 512px"
-          />
-        </div>
-      </div>
-      <span className="absolute bottom-2 right-2 font-plex text-xs text-soft bg-paper/80 px-2 py-0.5">
         {flipped ? '앞면 보기' : '뒷면 보기'}
-      </span>
+      </button>
     </div>
   );
 }

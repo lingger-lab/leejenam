@@ -34,7 +34,7 @@ export function Serving() {
         <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
           {recipes.map((recipe) => (
             <div key={recipe.title}>
-              <div className="relative w-full aspect-[4/5] overflow-hidden rounded">
+              <div className="relative w-full aspect-[4/5] overflow-hidden">
                 <Image
                   src={recipe.src}
                   alt={recipe.alt}
