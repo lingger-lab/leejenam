@@ -1,11 +1,11 @@
 export function ProductionLimit() {
   return (
-    <section id="limit" className="bg-ink py-16 px-6">
+    <section id="limit" className="bg-ink py-24 lg:py-32 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto text-center">
-        <p className="font-batang text-paper/60 text-sm tracking-widest mb-8">
+        <p className="font-batang text-paper/60 text-sm tracking-widest mb-12 lg:mb-16">
           한계
         </p>
-        <h2 className="font-batang font-bold text-2xl text-paper leading-relaxed mb-8">
+        <h2 className="font-batang font-bold text-2xl lg:text-5xl text-paper tracking-[-0.01em] leading-snug mb-8">
           청 하나에 백 병.
         </h2>
         <div className="font-batang text-paper/80 text-base leading-loose space-y-4">

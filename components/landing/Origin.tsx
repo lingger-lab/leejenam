@@ -2,13 +2,13 @@ import Image from 'next/image';
 
 export function Origin() {
   return (
-    <section id="origin" className="bg-paper py-14 px-6">
+    <section id="origin" className="bg-paper py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-2xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-12 lg:mb-16">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             원산지
           </p>
-          <h2 className="font-batang font-bold text-2xl text-ink">
+          <h2 className="font-batang font-bold text-2xl lg:text-4xl text-ink tracking-[-0.01em] leading-snug">
             욱곡농장
           </h2>
           <p className="text-soft text-xs mt-3 font-plex tracking-wider">

@@ -2,10 +2,10 @@ import Image from 'next/image';
 
 export function FounderLetter() {
   return (
-    <section id="founder" className="bg-paper py-16 px-6">
+    <section id="founder" className="bg-paper py-20 lg:py-28 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto">
-        <p className="font-batang text-seal text-sm tracking-widest mb-8">
-          제철 과일청을 만든 이유.
+        <p className="font-batang text-soft text-sm tracking-widest mb-12 lg:mb-16">
+          편지
         </p>
 
         <div className="font-batang text-base text-ink leading-loose space-y-4 text-left">
@@ -48,7 +48,7 @@ export function FounderLetter() {
         </div>
 
         <div className="mt-10 flex items-center justify-end gap-3">
-          <span className="font-batang text-base text-ink tracking-[0.25em]">대표 이 제 남</span>
+          <span className="font-batang text-base text-ink tracking-[0.25em]">대표 이제남</span>
           <Image
             src="/img/signature.png"
             alt="이제남 서명"

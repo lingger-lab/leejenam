@@ -1,12 +1,12 @@
 export function Spec() {
   return (
-    <section id="spec" className="bg-paper-2 py-16 px-6">
+    <section id="spec" className="bg-paper-2 py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-2xl mx-auto">
-        <p className="font-batang text-soft text-sm tracking-widest mb-8 text-center">
+        <p className="font-batang text-soft text-sm tracking-widest mb-12 lg:mb-16 text-center">
           제품 정보
         </p>
 
-        <table className="w-full text-sm font-plex">
+        <table className="w-full text-base font-plex">
           <tbody className="divide-y divide-rule">
             {[
               ['제품명', '이제남 과일청'],
@@ -24,7 +24,7 @@ export function Spec() {
                 <td className="py-3 pr-4 text-soft w-24 align-top whitespace-nowrap">
                   {label}
                 </td>
-                <td className="py-3 text-ink">{value}</td>
+                <td className="py-3 text-ink tabular-nums">{value}</td>
               </tr>
             ))}
           </tbody>

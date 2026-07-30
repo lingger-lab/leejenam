@@ -2,11 +2,16 @@ import Image from 'next/image';
 
 export function Credentials() {
   return (
-    <section id="credentials" className="bg-paper py-14 px-6">
+    <section id="credentials" className="bg-white-2 py-20 lg:py-28 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto">
-        <h2 className="font-batang font-bold text-xl text-seal mb-6">
-          저는 영양사입니다.
-        </h2>
+        <div className="text-center mb-12 lg:mb-16">
+          <p className="font-batang text-soft text-sm tracking-widest mb-3">
+            자격
+          </p>
+          <h2 className="font-batang font-bold text-2xl lg:text-4xl text-ink tracking-[-0.01em] leading-snug">
+            저는 영양사입니다.
+          </h2>
+        </div>
         <div className="font-batang text-base text-ink leading-loose space-y-4">
           <p>
             그래서 이 청이 몸에 어떻게 좋은지 그럴듯하게 설명할 수도 있습니다.

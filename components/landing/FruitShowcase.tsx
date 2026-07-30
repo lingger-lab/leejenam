@@ -8,13 +8,13 @@ const fruits = [
 
 export function FruitShowcase() {
   return (
-    <section id="fruits" className="bg-paper py-14 px-6">
+    <section id="fruits" className="bg-paper py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-3xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-12 lg:mb-16">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             원물
           </p>
-          <h2 className="font-batang font-bold text-2xl text-ink">
+          <h2 className="font-batang font-bold text-2xl lg:text-4xl text-ink tracking-[-0.01em] leading-snug">
             제철에 난 과일을, 그대로 담급니다
           </h2>
         </div>

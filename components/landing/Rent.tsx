@@ -2,13 +2,13 @@ import Image from 'next/image';
 
 export function Rent() {
   return (
-    <section id="facility" className="bg-paper-2 py-14 px-6">
+    <section id="facility" className="bg-white-2 py-20 lg:py-28 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto">
-        <div className="text-center mb-10">
+        <div className="text-center mb-12 lg:mb-16">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             제조 시설
           </p>
-          <h2 className="font-batang font-bold text-2xl text-ink leading-relaxed">
+          <h2 className="font-batang font-bold text-2xl lg:text-4xl text-ink tracking-[-0.01em] leading-snug">
             HACCP 인증 시설에서
             <br />
             직접 만듭니다.

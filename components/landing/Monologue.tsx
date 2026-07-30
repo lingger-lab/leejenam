@@ -70,9 +70,9 @@ export function Monologue() {
       className="bg-ink min-h-[100dvh] px-6 flex flex-col items-center justify-center relative overflow-hidden"
     >
       <div className="max-w-md lg:max-w-xl mx-auto text-center relative z-10">
-        <blockquote className="font-batang text-paper leading-loose">
+        <blockquote className="font-batang text-paper">
           <span
-            className={`text-2xl lg:text-5xl font-bold inline-block ${shimmer ? 'hero-shimmer' : ''}`}
+            className={`text-3xl lg:text-5xl font-bold inline-block leading-tight ${shimmer ? 'hero-shimmer' : ''}`}
           >
             {typed1}
             {showCursor1 && (
@@ -82,7 +82,7 @@ export function Monologue() {
           {typed1.length === LINE1.length && (
             <>
               <br />
-              <span className="text-xl lg:text-3xl inline-block">
+              <span className="text-xl lg:text-3xl inline-block leading-snug mt-3 lg:mt-4">
                 {typed2}
                 {showCursor2 && (
                   <span className="cursor-blink font-light">|</span>
@@ -99,7 +99,7 @@ export function Monologue() {
         />
 
         <p
-          className={`font-batang text-gold text-base lg:text-lg leading-loose transition-opacity duration-700 ${
+          className={`font-batang text-gold text-lg lg:text-xl leading-loose transition-opacity duration-700 ${
             showBody ? 'opacity-100' : 'opacity-0'
           }`}
         >

@@ -11,20 +11,20 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="process" className="bg-white-2 py-14 px-6">
+    <section id="process" className="bg-white-2 py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-3xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-12 lg:mb-16">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             제조
           </p>
-          <h2 className="font-batang font-bold text-2xl text-ink">
+          <h2 className="font-batang font-bold text-2xl lg:text-4xl text-ink tracking-[-0.01em] leading-snug">
             여섯 단계
           </h2>
         </div>
 
         <div className="relative">
           {/* 세로 라인 */}
-          <div className="absolute left-5 top-0 bottom-0 w-px bg-rule" />
+          <div className="absolute left-5 top-0 bottom-10 w-px bg-rule" />
 
           <div className="space-y-0">
             {steps.map((step) => (

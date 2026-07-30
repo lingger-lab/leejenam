@@ -21,7 +21,7 @@ const slides = [
     id: 'berry',
     src: '/img/03_berry.webp',
     alt: '이제남 블루베리청 — 라벨에 박정희라는 이름이 손글씨로 새겨져 있다',
-    name: '박정희',
+    name: '박정숙',
   },
 ];
 
@@ -74,7 +74,7 @@ export function Hero() {
 
   return (
     <section
-      id="hero" className="relative w-full bg-paper overflow-hidden"
+      id="hero" className="relative w-full bg-paper overflow-hidden py-20 lg:py-28"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
@@ -103,47 +103,51 @@ export function Hero() {
       </div>
 
       {/* 점 인디케이터 */}
-      <div className="flex justify-center gap-2.5 mt-3">
+      <div className="flex justify-center gap-1 mt-6">
         {slides.map((slide, i) => (
           <button
             key={slide.id}
             onClick={() => setCurrent(i)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              i === current
-                ? 'bg-seal w-6'
-                : 'bg-rule hover:bg-soft'
-            }`}
+            className="p-3 flex items-center justify-center"
             aria-label={`${i + 1}번 슬라이드`}
             aria-current={i === current}
-          />
+          >
+            <span
+              className={`block h-2 rounded-full transition-all duration-300 ${
+                i === current
+                  ? 'bg-seal w-6'
+                  : 'bg-rule hover:bg-soft w-2'
+              }`}
+            />
+          </button>
         ))}
       </div>
 
       {/* 이름 전환 강조 */}
-      <div className="text-center pt-5 pb-1">
+      <div className="text-center mt-8">
         <p className="font-pen text-3xl text-seal">
           {displayName}
         </p>
-        <p className="font-plex text-xs text-soft mt-1">
+        <p className="font-plex text-sm text-soft mt-1">
           님에게 갑니다
         </p>
       </div>
 
       {/* 하단 카피 */}
-      <div className="text-center py-2">
+      <div className="text-center mt-4">
         <p className="font-batang text-base text-soft tracking-wider">
           각각 다른 이름이 새겨집니다
         </p>
       </div>
 
       {/* CTA */}
-      <div className="text-center pb-8 pt-3">
+      <div className="text-center mt-8">
         <a
-          href="#shop"
-          className="inline-block font-plex text-sm font-medium bg-ink text-paper
-                     px-6 py-3 hover:bg-seal transition-colors"
+          href="#signature"
+          className="inline-block font-plex text-base font-medium bg-ink text-paper
+                     px-10 py-4 hover:bg-seal transition-colors tracking-wide"
         >
-          이름 새겨서 주문하기
+          주문하기
         </a>
         <p className="mt-4 font-plex text-sm text-soft">
           또는 전화 한 통이면 됩니다

@@ -23,15 +23,18 @@ const recipes = [
 
 export function Serving() {
   return (
-    <section id="serving" className="bg-paper-2 py-14 px-6">
+    <section id="serving" className="bg-paper-2 py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-3xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="font-batang font-bold text-2xl text-ink">
+        <div className="text-center mb-12 lg:mb-16">
+          <p className="font-batang text-soft text-sm tracking-widest mb-3">
+            마시는 법
+          </p>
+          <h2 className="font-batang font-bold text-2xl lg:text-4xl text-ink tracking-[-0.01em] leading-snug">
             시원하게 즐기는 법
           </h2>
         </div>
 
-        <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
+        <div className="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
           {recipes.map((recipe) => (
             <div key={recipe.title}>
               <div className="relative w-full aspect-[4/5] overflow-hidden">

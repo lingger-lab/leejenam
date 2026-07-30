@@ -24,18 +24,18 @@ export default function Home() {
       <NameGate />
       <PageTracker />
       <Monologue />
-      <FadeUp><FruitBanner /></FadeUp>
-      <FadeUp><Serving /></FadeUp>
+      <Hero />
+      <FruitBanner />
       <FadeUp><FounderLetter /></FadeUp>
       <FadeUp><Credentials /></FadeUp>
       <FadeUp><Maker /></FadeUp>
       <FadeUp><Refuse /></FadeUp>
-      <FadeUp><FruitShowcase /></FadeUp>
+      <FruitShowcase />
+      <FadeUp><Serving /></FadeUp>
       <FadeUp><Process /></FadeUp>
       <FadeUp><Origin /></FadeUp>
       <FadeUp><Rent /></FadeUp>
       <FadeUp><ProductionLimit /></FadeUp>
-      <FadeUp><Hero /></FadeUp>
       <FadeUp><Signature /></FadeUp>
       <FadeUp><Shop /></FadeUp>
       <FadeUp><Spec /></FadeUp>

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="bg-ink py-16 px-6">
+    <footer className="bg-ink py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-3xl mx-auto text-center">
         {/* 브랜드 */}
         <p className="font-batang font-bold text-xl text-paper">이제남</p>
@@ -29,7 +29,7 @@ export function Footer() {
             개인정보처리방침
           </Link>
           <Link
-            href="/#shop"
+            href="/#spec"
             className="font-plex text-sm text-paper/70 hover:text-paper py-2 transition-colors"
           >
             이용안내
@@ -47,12 +47,12 @@ export function Footer() {
         >
           010-8339-5585
         </a>
-        <p className="font-plex text-sm text-paper/70 mt-2">
+        <p className="font-plex text-sm text-paper/70 mt-2 tabular-nums">
           농협 947-02-126434 예금주 이제남
         </p>
 
         {/* 구분선 */}
-        <div className="w-8 h-px bg-paper/20 mx-auto my-8" />
+        <div className="w-8 h-px bg-paper/30 mx-auto my-8" />
 
         {/* 사업자 정보 */}
         <div className="font-plex text-xs text-paper/70 leading-loose space-y-1">

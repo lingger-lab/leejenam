@@ -1,14 +1,14 @@
 export function Refuse() {
   return (
-    <section id="ingredients" className="bg-ink py-16 px-6">
+    <section id="ingredients" className="bg-ink py-24 lg:py-32 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto text-center">
-        <p className="font-batang text-paper/60 text-sm tracking-widest mb-8">
+        <p className="font-batang text-paper/60 text-sm tracking-widest mb-12 lg:mb-16">
           원칙
         </p>
-        <h2 className="font-batang font-bold text-2xl text-paper leading-relaxed mb-6">
+        <h2 className="font-batang font-bold text-2xl lg:text-4xl text-paper tracking-[-0.01em] leading-snug mb-6">
           넣지 않은 것들.
         </h2>
-        <div className="font-plex text-paper/80 text-sm leading-loose space-y-4">
+        <div className="font-plex text-paper/80 text-base leading-loose space-y-4">
           <p>
             인공 감미료, 합성 착색료, 보존료.
             <br />

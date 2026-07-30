@@ -766,8 +766,8 @@ function FlipCard({
         type="button"
         onClick={() => setFlipped((prev) => !prev)}
         aria-pressed={flipped}
-        className="absolute bottom-2 right-2 font-plex text-xs text-soft bg-paper/80
-                   px-2 py-1 border border-rule hover:bg-paper transition-colors"
+        className="absolute bottom-2 right-2 font-plex text-sm text-soft bg-paper/80
+                   px-3 py-2.5 border border-rule hover:bg-paper transition-colors"
       >
         {flipped ? '앞면 보기' : '뒷면 보기'}
       </button>

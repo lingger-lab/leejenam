@@ -71,8 +71,8 @@ function FlipCard({
         type="button"
         onClick={() => setFlipped((prev) => !prev)}
         aria-pressed={flipped}
-        className="absolute bottom-2 right-2 font-plex text-xs text-soft bg-paper/80
-                   px-2 py-1 border border-rule hover:bg-paper transition-colors"
+        className="absolute bottom-2 right-2 font-plex text-sm text-soft bg-paper/80
+                   px-3 py-2.5 border border-rule hover:bg-paper transition-colors"
       >
         {flipped ? '앞면 보기' : '뒷면 보기'}
       </button>
@@ -82,13 +82,13 @@ function FlipCard({
 
 export function Shop() {
   return (
-    <section id="shop" className="bg-paper py-16 px-6">
+    <section id="shop" className="bg-paper py-20 lg:py-28 px-6">
       <div className="max-w-lg lg:max-w-4xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-12 lg:mb-16">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             세 가지
           </p>
-          <h2 className="font-batang font-bold text-2xl text-ink">
+          <h2 className="font-batang font-bold text-2xl lg:text-5xl text-ink tracking-[-0.01em] leading-snug">
             오늘 담글 수 있는 청
           </h2>
           <p className="text-soft text-sm mt-3 font-plex">
@@ -100,7 +100,7 @@ export function Shop() {
           {PRODUCTS.map((product, index) => (
             <div
               key={product.id}
-              className="border border-rule bg-white-2/50"
+              className="border border-rule bg-white-2"
             >
               <FlipCard
                 src={product.src}
@@ -108,7 +108,7 @@ export function Shop() {
                 alt={product.name}
                 index={index}
               />
-              <div className="p-4">
+              <div className="p-6">
                 <div className="flex items-baseline justify-between mb-1">
                   <h3 className="font-batang font-bold text-lg text-ink">
                     {product.name}
@@ -120,8 +120,8 @@ export function Shop() {
                 <p className="text-soft text-sm font-plex mb-2">
                   {product.note}
                 </p>
-                <p className="text-soft text-xs font-plex mb-4">
-                  배송비 무료 · 주문 후 3~4일
+                <p className="text-soft text-sm font-plex mb-4">
+                  주문 후 3~4일
                 </p>
                 <Link
                   href={`/checkout?product=${product.id}`}
