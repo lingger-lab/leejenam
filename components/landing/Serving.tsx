@@ -23,7 +23,7 @@ const recipes = [
 
 export function Serving() {
   return (
-    <section id="serving" className="bg-paper-2 py-20 px-6">
+    <section id="serving" className="bg-paper-2 py-14 px-6">
       <div className="max-w-lg mx-auto">
         <div className="text-center mb-14">
           <h2 className="font-batang font-bold text-2xl text-ink">

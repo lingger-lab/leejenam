@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function Credentials() {
   return (
-    <section id="credentials" className="bg-paper py-20 px-6">
+    <section id="credentials" className="bg-paper py-14 px-6">
       <div className="max-w-md mx-auto">
         <h2 className="font-batang font-bold text-xl text-seal mb-6">
           저는 영양사입니다.

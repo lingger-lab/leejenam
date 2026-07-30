@@ -314,8 +314,14 @@ function CheckoutPage() {
         <h1 className="font-batang font-bold text-2xl text-ink text-center mb-4">
           이름을 새겨 보내드립니다
         </h1>
-        <p className="text-center font-plex text-sm text-soft mb-12">
+        <p className="text-center font-plex text-sm text-soft">
           {PRICE.toLocaleString()}원 · 500ml · 주문 후 3~4일
+        </p>
+        <p className="text-center font-plex text-sm text-soft mt-2 mb-12">
+          편하게 전화로 주문하세요{' '}
+          <a href="tel:010-8339-5585" className="text-seal font-medium hover:underline">
+            010-8339-5585
+          </a>
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -326,7 +332,7 @@ function CheckoutPage() {
                 · {errors.items}
               </p>
             )}
-            {PRODUCTS.map((product) => {
+            {PRODUCTS.map((product, index) => {
               const nameError = nameErrors[product.id];
 
               return (
@@ -338,6 +344,7 @@ function CheckoutPage() {
                     src={product.src}
                     backSrc={product.backSrc}
                     alt={product.name}
+                    index={index}
                   />
 
                   <div className="p-4">
@@ -698,18 +705,47 @@ function FlipCard({
   src,
   backSrc,
   alt,
+  index = 0,
 }: {
   src: string;
   backSrc: string;
   alt: string;
+  index?: number;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
+
+    const initialDelay = (3 + index * 2) * 1000;
+    let intervalId: ReturnType<typeof setInterval>;
+
+    const timeoutId = setTimeout(() => {
+      if (!pausedRef.current) setFlipped(true);
+
+      intervalId = setInterval(() => {
+        if (!pausedRef.current) setFlipped((prev) => !prev);
+      }, 3_000);
+    }, initialDelay);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
+  }, [index]);
+
+  const handleClick = () => {
+    pausedRef.current = true;
+    setFlipped((prev) => !prev);
+  };
 
   return (
     <div
       className="relative w-full aspect-[4/5] cursor-pointer select-none"
       style={{ perspective: '1000px' }}
-      onClick={() => setFlipped(!flipped)}
+      onClick={handleClick}
     >
       <div
         className="relative w-full h-full motion-safe:transition-transform motion-safe:duration-700"

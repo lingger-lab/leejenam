@@ -24,7 +24,7 @@ function FlipCard({
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mq.matches) return;
 
-    const initialDelay = (5 + index * 2) * 1000;
+    const initialDelay = (3 + index * 2) * 1000;
     let intervalId: ReturnType<typeof setInterval>;
 
     const timeoutId = setTimeout(() => {
@@ -32,7 +32,7 @@ function FlipCard({
 
       intervalId = setInterval(() => {
         if (!pausedRef.current) setFlipped((prev) => !prev);
-      }, 10_000);
+      }, 3_000);
     }, initialDelay);
 
     return () => {
@@ -98,7 +98,7 @@ function FlipCard({
 
 export function Shop() {
   return (
-    <section id="shop" className="bg-paper py-20 px-6">
+    <section id="shop" className="bg-paper py-16 px-6">
       <div className="max-w-lg mx-auto">
         <div className="text-center mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">

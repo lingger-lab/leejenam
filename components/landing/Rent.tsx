@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function Rent() {
   return (
-    <section id="facility" className="bg-paper-2 py-20 px-6">
+    <section id="facility" className="bg-paper-2 py-14 px-6">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-10">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
