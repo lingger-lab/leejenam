@@ -50,11 +50,10 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 히어로 — 물에 청이 퍼지는 색 번짐 (radial-gradient: blur 대신, 모바일 GPU 호환) */
+/* 히어로 — 물에 청이 퍼지는 색 번짐 (WebView 호환: 애니메이션 없어도 base opacity로 표시) */
 @keyframes bloom {
-  0%   { transform: scale(0.3); opacity: 0; }
-  40%  { opacity: 0.5; }
-  100% { transform: scale(1.8); opacity: 0; }
+  0%, 100% { transform: scale(0.6); opacity: 0.15; }
+  50%      { transform: scale(1.4); opacity: 0.5; }
 }
 
 .bloom {
@@ -62,7 +61,8 @@ html {
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  will-change: transform, opacity;
+  opacity: 0.3;
+  transform: scale(1);
   animation: bloom 8s ease-in-out infinite;
 }
 
