@@ -82,7 +82,7 @@ export function Hero() {
       aria-label="이제남 과일청 3종"
     >
       {/* 슬라이드 — 확대된 이미지 */}
-      <div className="relative w-full max-w-lg mx-auto px-4 aspect-[4/5]">
+      <div className="relative w-full max-w-lg lg:max-w-2xl mx-auto px-4 aspect-[4/5]">
         {slides.map((slide, i) => (
           <div
             key={slide.id}

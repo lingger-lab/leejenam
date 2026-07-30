@@ -12,7 +12,7 @@ export function Monologue() {
         ].join(', '),
       }}
     >
-      <div className="max-w-md mx-auto text-center relative z-10">
+      <div className="max-w-md lg:max-w-xl mx-auto text-center relative z-10">
         <blockquote className="font-batang text-paper leading-loose">
           <span className="text-2xl font-bold">제철 과일이 주는 영양,</span>
           <br />

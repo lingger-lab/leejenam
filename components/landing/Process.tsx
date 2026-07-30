@@ -12,7 +12,7 @@ const steps = [
 export function Process() {
   return (
     <section id="process" className="bg-white-2 py-14 px-6">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg lg:max-w-3xl mx-auto">
         <div className="text-center mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             제조

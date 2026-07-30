@@ -21,7 +21,7 @@ export function Header() {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-lg mx-auto px-6 h-14 flex items-center justify-between">
+      <div className="max-w-lg lg:max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
         {/* 브랜드 */}
         <Link href="/" className="font-batang font-bold text-xl text-ink">
           이제남

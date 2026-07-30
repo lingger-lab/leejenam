@@ -1,7 +1,7 @@
 export function Refuse() {
   return (
     <section id="ingredients" className="bg-ink py-16 px-6">
-      <div className="max-w-md mx-auto text-center">
+      <div className="max-w-md lg:max-w-lg mx-auto text-center">
         <p className="font-batang text-paper/60 text-sm tracking-widest mb-8">
           원칙
         </p>

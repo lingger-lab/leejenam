@@ -115,7 +115,7 @@ function FlipCard({
 export function Shop() {
   return (
     <section id="shop" className="bg-paper py-16 px-6">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg lg:max-w-4xl mx-auto">
         <div className="text-center mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             세 가지
@@ -128,7 +128,7 @@ export function Shop() {
           </p>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-6">
           {PRODUCTS.map((product, index) => (
             <div
               key={product.id}

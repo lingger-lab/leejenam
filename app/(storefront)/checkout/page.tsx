@@ -307,7 +307,7 @@ function CheckoutPage() {
   /* ---------- 렌더 ---------- */
   return (
     <div className="bg-paper min-h-screen px-6 py-10">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg lg:max-w-3xl mx-auto">
         <p className="font-batang text-soft text-sm tracking-widest mb-3 text-center">
           주문하기
         </p>

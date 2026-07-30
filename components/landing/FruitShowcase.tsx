@@ -9,7 +9,7 @@ const fruits = [
 export function FruitShowcase() {
   return (
     <section id="fruits" className="bg-paper py-14 px-6">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-lg lg:max-w-3xl mx-auto">
         <div className="text-center mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             원물
@@ -19,7 +19,7 @@ export function FruitShowcase() {
           </h2>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-6">
           {fruits.map((fruit) => (
             <div key={fruit.name}>
               <div className="relative w-full aspect-square overflow-hidden">
