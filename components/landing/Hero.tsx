@@ -143,7 +143,7 @@ export function Hero() {
       {/* CTA */}
       <div className="text-center mt-8">
         <a
-          href="#signature"
+          href="/checkout"
           className="inline-block font-plex text-base font-medium bg-ink text-paper
                      px-10 py-4 hover:bg-seal transition-colors tracking-wide"
         >
