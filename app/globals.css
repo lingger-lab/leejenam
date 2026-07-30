@@ -50,6 +50,39 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 히어로 순차 페이드인 */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero-rise {
+  opacity: 0;
+  animation: hero-rise 0.8s ease-out forwards;
+}
+
+/* 히어로 텍스트 시머 */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-shimmer {
+  background: linear-gradient(
+    90deg,
+    currentColor 0%,
+    currentColor 40%,
+    #E8B87A 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease-in-out 2s infinite;
+}
+
 /* 스크롤 페이드업 */
 [data-fade-up] {
   opacity: 0;
@@ -67,6 +100,15 @@ html {
     scroll-behavior: auto;
   }
   .cursor-blink {
+    animation: none;
+  }
+  .hero-rise {
+    opacity: 1;
+    animation: none;
+  }
+  .hero-shimmer {
+    background: none;
+    -webkit-text-fill-color: currentColor;
     animation: none;
   }
   [data-fade-up] {
