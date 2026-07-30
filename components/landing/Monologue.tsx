@@ -1,13 +1,17 @@
 export function Monologue() {
   return (
-    <section id="hook" className="bg-ink min-h-[100dvh] px-6 flex flex-col items-center justify-center relative overflow-hidden">
-      {/* 색 번짐 — 물에 청이 퍼지는 효과 */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="bloom bloom-peach" />
-        <div className="bloom bloom-plum" />
-        <div className="bloom bloom-berry" />
-      </div>
-
+    <section
+      id="hook"
+      className="min-h-[100dvh] px-6 flex flex-col items-center justify-center relative overflow-hidden"
+      style={{
+        background: [
+          'radial-gradient(circle at 20% 30%, rgba(242, 196, 160, 0.45) 0%, transparent 50%)',
+          'radial-gradient(circle at 80% 60%, rgba(179, 74, 92, 0.4) 0%, transparent 50%)',
+          'radial-gradient(circle at 45% 85%, rgba(90, 74, 122, 0.4) 0%, transparent 50%)',
+          '#1B1917',
+        ].join(', '),
+      }}
+    >
       <div className="max-w-md mx-auto text-center relative z-10">
         <blockquote className="font-batang text-paper leading-loose">
           <span className="text-2xl font-bold">제철 과일이 주는 영양,</span>
