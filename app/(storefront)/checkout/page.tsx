@@ -714,23 +714,38 @@ function FlipCard({
 }) {
   const [flipped, setFlipped] = useState(false);
   const pausedRef = useRef(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mq.matches) return;
 
-    const initialDelay = (3 + index * 2) * 1000;
+    const el = cardRef.current;
+    if (!el) return;
+
+    let timeoutId: ReturnType<typeof setTimeout>;
     let intervalId: ReturnType<typeof setInterval>;
 
-    const timeoutId = setTimeout(() => {
-      if (!pausedRef.current) setFlipped(true);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          const initialDelay = (3 + index * 2) * 1000;
+          timeoutId = setTimeout(() => {
+            if (!pausedRef.current) setFlipped(true);
+            intervalId = setInterval(() => {
+              if (!pausedRef.current) setFlipped((prev) => !prev);
+            }, 3_000);
+          }, initialDelay);
+        }
+      },
+      { threshold: 0.3 },
+    );
 
-      intervalId = setInterval(() => {
-        if (!pausedRef.current) setFlipped((prev) => !prev);
-      }, 3_000);
-    }, initialDelay);
+    observer.observe(el);
 
     return () => {
+      observer.disconnect();
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
@@ -743,6 +758,7 @@ function FlipCard({
 
   return (
     <div
+      ref={cardRef}
       className="relative w-full aspect-[4/5] cursor-pointer select-none"
       style={{ perspective: '1000px' }}
       onClick={handleClick}
