@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PRODUCTS } from '@/lib/products';
@@ -10,17 +10,47 @@ function FlipCard({
   src,
   backSrc,
   alt,
+  index = 0,
 }: {
   src: string;
   backSrc: string;
   alt: string;
+  index?: number;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
+
+    const initialDelay = (5 + index * 2) * 1000;
+    let intervalId: ReturnType<typeof setInterval>;
+
+    const timeoutId = setTimeout(() => {
+      if (!pausedRef.current) setFlipped(true);
+
+      intervalId = setInterval(() => {
+        if (!pausedRef.current) setFlipped((prev) => !prev);
+      }, 10_000);
+    }, initialDelay);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
+  }, [index]);
+
+  const handleClick = () => {
+    pausedRef.current = true;
+    setFlipped((prev) => !prev);
+  };
+
   return (
     <div
       className="relative w-full aspect-[4/5] cursor-pointer"
       style={{ perspective: '1000px' }}
-      onClick={() => setFlipped(!flipped)}
+      onClick={handleClick}
     >
       <div
         className="relative w-full h-full motion-safe:transition-transform motion-safe:duration-700"
@@ -83,7 +113,7 @@ export function Shop() {
         </div>
 
         <div className="space-y-8">
-          {PRODUCTS.map((product) => (
+          {PRODUCTS.map((product, index) => (
             <div
               key={product.id}
               className="border border-rule bg-white-2/50"
@@ -92,6 +122,7 @@ export function Shop() {
                 src={product.src}
                 backSrc={product.backSrc}
                 alt={product.name}
+                index={index}
               />
               <div className="p-4">
                 <div className="flex items-baseline justify-between mb-1">
