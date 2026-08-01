@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { isGhost } from '@/lib/config';
 import { track } from '@/lib/events';
+import { pixelTrack } from '@/lib/pixel';
 import { GhostMessage } from '@/components/GhostMessage';
 import { PRODUCTS } from '@/lib/products';
 
@@ -68,6 +69,7 @@ export default function OrderCompletePage() {
 
   useEffect(() => {
     track('order_submit');
+    pixelTrack('Lead'); // 주문 완료(고스트 접수) — 광고 최적화 목표
   }, []);
 
   useEffect(() => {

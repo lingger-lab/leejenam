@@ -7,6 +7,7 @@ import { PRODUCTS, type ProductId } from '@/lib/products';
 import { PRICE, SHIPPING_FEE } from '@/lib/config';
 import { validatePhone, validateEngraveName } from '@/lib/validators';
 import { track } from '@/lib/events';
+import { pixelTrack, pixelTrackCustom } from '@/lib/pixel';
 import { getStoredName } from '@/lib/name';
 
 /* ---------- Suspense wrapper ---------- */
@@ -111,6 +112,7 @@ function CheckoutPage() {
 
     localStorage.removeItem('ijn_cart');
     track('checkout_start');
+    pixelTrack('InitiateCheckout'); // 주문서 진입
 
     const stored = getStoredName();
     if (stored) {
@@ -185,6 +187,7 @@ function CheckoutPage() {
     setOrderItems((prev) => [...prev, newItem]);
     setNameInputs((prev) => ({ ...prev, [id]: '' }));
     track('add_to_cart', { product_id: id, engrave_name: name });
+    pixelTrack('InitiateCheckout'); // 장바구니 담기 (PII 미전송)
     setTimeout(() => {
       orderListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
@@ -584,7 +587,10 @@ function CheckoutPage() {
                   checked={form.subscribeIntent}
                   onChange={(e) => {
                     updateField('subscribeIntent', e.target.checked);
-                    if (e.target.checked) track('subscribe_intent');
+                    if (e.target.checked) {
+                      track('subscribe_intent');
+                      pixelTrackCustom('SubscribeIntent');
+                    }
                   }}
                   className="accent-seal w-6 h-6 mt-0.5 flex-shrink-0"
                 />

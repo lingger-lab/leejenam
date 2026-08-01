@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Gowun_Batang, IBM_Plex_Sans_KR, Nanum_Pen_Script } from "next/font/google";
 import "./globals.css";
+import { MetaPixel } from "@/components/MetaPixel";
 
 const batang = Gowun_Batang({
   weight: ["400", "700"],
@@ -46,7 +47,10 @@ export default function RootLayout({
       lang="ko"
       className={`${batang.variable} ${plex.variable} ${pen.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <MetaPixel />
+        {children}
+      </body>
     </html>
   );
 }
