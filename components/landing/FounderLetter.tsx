@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function FounderLetter() {
   return (
-    <section id="founder" className="bg-paper py-20 lg:py-28 px-6">
+    <section id="founder" className="bg-paper py-14 lg:py-20 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto">
         <p className="font-batang text-soft text-sm tracking-widest mb-12 lg:mb-16">
           편지
