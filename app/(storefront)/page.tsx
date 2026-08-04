@@ -26,12 +26,12 @@ export default function Home() {
       <Monologue />
       <Hero />
       <FruitBanner />
+      <FadeUp><Serving /></FadeUp>
+      <FruitShowcase />
       <FadeUp><FounderLetter /></FadeUp>
       <FadeUp><Credentials /></FadeUp>
       <FadeUp><Maker /></FadeUp>
       <FadeUp><Refuse /></FadeUp>
-      <FruitShowcase />
-      <FadeUp><Serving /></FadeUp>
       <FadeUp><Process /></FadeUp>
       <FadeUp><Origin /></FadeUp>
       <FadeUp><Rent /></FadeUp>
