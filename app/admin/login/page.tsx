@@ -2,14 +2,12 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,8 +27,10 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push('/admin');
-      router.refresh();
+      // 전체 페이지 이동으로 새로 설정된 세션 쿠키를 미들웨어가 확실히 읽게 함.
+      // (router.push는 쿠키 전파 레이스로 /admin이 다시 로그인으로 튕겨
+      //  로그인 페이지가 남고 loading이 안 풀려 무한 '로그인 중...'이 됨)
+      window.location.href = '/admin';
     } catch {
       setError('로그인 중 문제가 발생했습니다. 다시 시도해주세요.');
       setLoading(false);
