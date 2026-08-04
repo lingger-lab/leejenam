@@ -3,23 +3,18 @@
 import { useEffect } from 'react';
 import { track } from '@/lib/events';
 
-const SECTIONS = [
-  'hook', 'banner', 'founder', 'credentials', 'maker',
-  'refuse', 'fruits', 'process', 'origin', 'facility',
-  'limit', 'hero', 'signature', 'shop', 'spec',
-];
-
 export function PageTracker() {
   useEffect(() => {
     track('page_view');
 
-    // 섹션 도달 추적 (IntersectionObserver)
+    // 섹션 도달 추적 (IntersectionObserver).
+    // 라벨은 각 <section>의 고정 id를 사용 — 섹션 순서를 바꿔도 라벨이 밀리지 않는다.
     const observed = new Set<string>();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const section = (entry.target as HTMLElement).dataset.section;
+            const section = entry.target.id;
             if (section && !observed.has(section)) {
               observed.add(section);
               track('section_view', { section });
@@ -30,14 +25,10 @@ export function PageTracker() {
       { threshold: 0.3 }
     );
 
-    // 각 section 요소에 data-section 속성으로 매칭
-    const sectionEls = document.querySelectorAll('section');
-    sectionEls.forEach((el, i) => {
-      if (i < SECTIONS.length) {
-        el.dataset.section = SECTIONS[i];
-        observer.observe(el);
-      }
-    });
+    // id가 있는 섹션만 관찰
+    document
+      .querySelectorAll<HTMLElement>('section[id]')
+      .forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
