@@ -7,6 +7,14 @@ export default function SettingsClient() {
   const [adSpend, setAdSpend] = useState(0);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // 비밀번호 변경
+  const [newPw, setNewPw] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const [pwLoading, setPwLoading] = useState(false);
+  const [pwError, setPwError] = useState('');
+  const [pwSaved, setPwSaved] = useState(false);
+
   const supabase = createClient();
 
   useEffect(() => {
@@ -31,6 +39,34 @@ export default function SettingsClient() {
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const handlePasswordChange = async () => {
+    setPwError('');
+    setPwSaved(false);
+
+    if (newPw.length < 8) {
+      setPwError('비밀번호는 8자 이상이어야 합니다.');
+      return;
+    }
+    if (newPw !== confirmPw) {
+      setPwError('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    setPwLoading(true);
+    const { error } = await supabase.auth.updateUser({ password: newPw });
+    setPwLoading(false);
+
+    if (error) {
+      setPwError(error.message || '비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
+
+    setNewPw('');
+    setConfirmPw('');
+    setPwSaved(true);
+    setTimeout(() => setPwSaved(false), 3000);
+  };
+
   if (loading) return <p className="text-soft">불러오는 중...</p>;
 
   return (
@@ -38,14 +74,17 @@ export default function SettingsClient() {
       <h1 className="font-batang font-bold text-2xl text-ink mb-8">설정</h1>
 
       <div className="max-w-md space-y-6">
-        <div>
-          <label className="block text-sm text-soft mb-2">
+        {/* 광고비 */}
+        <section className="border border-rule bg-white p-5">
+          <h2 className="font-bold text-ink mb-4">광고비</h2>
+          <label htmlFor="ad-spend" className="block text-sm text-soft mb-2">
             누적 광고비 (원)
           </label>
           <p className="text-xs text-soft mb-3">
             CAC = 광고비 / 주문수. 이 값이 20,000원을 넘으면 사업이 성립하지 않습니다.
           </p>
           <input
+            id="ad-spend"
             type="number"
             value={adSpend}
             onChange={(e) => setAdSpend(Number(e.target.value))}
@@ -57,18 +96,64 @@ export default function SettingsClient() {
           <p className="text-xs text-soft mt-1">
             현재: {adSpend.toLocaleString()}원
           </p>
-        </div>
 
-        <button
-          onClick={handleSave}
-          className={`px-6 py-3 text-sm transition-all ${
-            saved
-              ? 'bg-seal/10 text-seal border border-seal'
-              : 'bg-ink text-paper hover:bg-seal'
-          }`}
-        >
-          {saved ? '저장됨' : '저장'}
-        </button>
+          <button
+            onClick={handleSave}
+            className={`mt-4 px-6 py-3 text-sm transition-all ${
+              saved
+                ? 'bg-seal/10 text-seal border border-seal'
+                : 'bg-ink text-paper hover:bg-seal'
+            }`}
+          >
+            {saved ? '저장됨' : '저장'}
+          </button>
+        </section>
+
+        {/* 비밀번호 변경 */}
+        <section className="border border-rule bg-white p-5">
+          <h2 className="font-bold text-ink mb-4">비밀번호 변경</h2>
+
+          <label htmlFor="new-pw" className="block text-sm text-soft mb-1">
+            새 비밀번호
+          </label>
+          <input
+            id="new-pw"
+            type="password"
+            value={newPw}
+            onChange={(e) => setNewPw(e.target.value)}
+            autoComplete="new-password"
+            placeholder="8자 이상"
+            className="w-full border border-rule px-4 py-3 bg-white outline-none
+                       focus:border-ink transition-colors mb-3"
+          />
+
+          <label htmlFor="confirm-pw" className="block text-sm text-soft mb-1">
+            새 비밀번호 확인
+          </label>
+          <input
+            id="confirm-pw"
+            type="password"
+            value={confirmPw}
+            onChange={(e) => setConfirmPw(e.target.value)}
+            autoComplete="new-password"
+            className="w-full border border-rule px-4 py-3 bg-white outline-none
+                       focus:border-ink transition-colors"
+          />
+
+          {pwError && <p className="text-seal text-sm mt-3">{pwError}</p>}
+
+          <button
+            onClick={handlePasswordChange}
+            disabled={pwLoading}
+            className={`mt-4 px-6 py-3 text-sm transition-all disabled:opacity-50 ${
+              pwSaved
+                ? 'bg-seal/10 text-seal border border-seal'
+                : 'bg-ink text-paper hover:bg-seal'
+            }`}
+          >
+            {pwLoading ? '변경 중...' : pwSaved ? '변경됨' : '비밀번호 변경'}
+          </button>
+        </section>
       </div>
     </div>
   );
