@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="bg-ink py-14 lg:py-20 px-6">
+    <footer className="bg-ink py-12 lg:py-16 px-6">
       <div className="max-w-lg lg:max-w-3xl mx-auto text-center">
         {/* 브랜드 */}
         <p className="font-batang font-bold text-xl text-paper">이제남</p>

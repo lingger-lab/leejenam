@@ -49,7 +49,7 @@ export function Signature() {
   };
 
   return (
-    <section id="signature" className="bg-paper-2 py-14 lg:py-20 px-6">
+    <section id="signature" className="bg-paper-2 py-12 lg:py-16 px-6">
       <div className="max-w-sm lg:max-w-md mx-auto">
         {/* 안내 텍스트 */}
         <div className="text-center mb-10 lg:mb-14">

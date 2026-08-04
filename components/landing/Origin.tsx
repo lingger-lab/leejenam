@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function Origin() {
   return (
-    <section id="origin" className="bg-paper py-14 lg:py-20 px-6">
+    <section id="origin" className="bg-paper py-12 lg:py-16 px-6">
       <div className="max-w-lg lg:max-w-2xl mx-auto">
         <div className="text-center mb-10 lg:mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">

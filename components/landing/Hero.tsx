@@ -74,7 +74,7 @@ export function Hero() {
 
   return (
     <section
-      id="hero" className="relative w-full bg-paper overflow-hidden py-14 lg:py-20"
+      id="hero" className="relative w-full bg-paper overflow-hidden py-12 lg:py-16"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
