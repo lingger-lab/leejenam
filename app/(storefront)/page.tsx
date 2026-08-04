@@ -24,10 +24,10 @@ export default function Home() {
       <NameGate />
       <PageTracker />
       <Monologue />
-      <Hero />
       <FruitBanner />
       <FadeUp><Serving /></FadeUp>
       <FruitShowcase />
+      <Hero />
       <FadeUp><FounderLetter /></FadeUp>
       <FadeUp><Credentials /></FadeUp>
       <FadeUp><Maker /></FadeUp>
