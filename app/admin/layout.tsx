@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { LogoutButton } from './LogoutButton';
 
 const navItems = [
   { href: '/admin', label: '대시보드' },
@@ -19,14 +20,15 @@ export default function AdminLayout({
     <div className="min-h-screen bg-white-2 font-plex">
       {/* 상단 네비게이션 */}
       <nav className="bg-ink text-paper px-4 py-3">
-        <div className="max-w-6xl mx-auto flex items-center gap-6 overflow-x-auto">
+        <div className="max-w-6xl mx-auto flex items-center gap-4">
           <Link
             href="/admin"
             className="font-batang font-bold text-lg whitespace-nowrap flex-shrink-0"
           >
             이제남
           </Link>
-          <div className="flex gap-1">
+          {/* 링크만 가운데서 가로 스크롤 — 로고·로그아웃은 양끝 고정(모바일에서도 항상 보임) */}
+          <div className="flex gap-1 overflow-x-auto flex-1 min-w-0">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -38,11 +40,7 @@ export default function AdminLayout({
               </Link>
             ))}
           </div>
-          <form action="/api/auth/signout" method="post" className="ml-auto flex-shrink-0">
-            <button type="submit" className="text-sm text-paper/50 hover:text-paper transition-colors">
-              로그아웃
-            </button>
-          </form>
+          <LogoutButton />
         </div>
       </nav>
 
