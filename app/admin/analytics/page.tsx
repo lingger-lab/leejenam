@@ -2,6 +2,30 @@ export const dynamic = 'force-dynamic';
 
 import { createServerClient } from '@/lib/supabase-server';
 
+/** 섹션 id → 한글 표시명. 매핑 없는 id는 원본 id를 그대로 노출(분석 누락 방지). */
+const SECTION_LABELS: Record<string, string> = {
+  hook: '인트로',
+  banner: '과일 배너',
+  serving: '마시는 법',
+  fruits: '원물',
+  hero: '제품 소개',
+  founder: '창업자 편지',
+  credentials: '자격·신뢰',
+  maker: '만드는 사람',
+  ingredients: '넣지 않은 것들',
+  process: '만드는 과정',
+  origin: '원산지',
+  facility: '제조 시설',
+  limit: '생산 한정',
+  signature: '이름 새기기',
+  shop: '구매',
+  spec: '제품 정보',
+};
+
+function sectionLabel(id: string): string {
+  return SECTION_LABELS[id] ?? id;
+}
+
 async function getAnalytics() {
   const supabase = await createServerClient();
 
@@ -115,7 +139,7 @@ export default async function AnalyticsPage() {
           <div className="space-y-2">
             {data.sections.map((s: Record<string, string | number>) => (
               <div key={String(s.section)} className="flex items-center gap-3">
-                <span className="text-sm text-soft w-24">{s.section}</span>
+                <span className="text-sm text-soft w-24">{sectionLabel(String(s.section))}</span>
                 <div className="flex-1 bg-rule/30 h-5 relative">
                   <div
                     className="bg-ink h-full"
