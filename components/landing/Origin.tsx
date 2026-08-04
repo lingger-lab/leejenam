@@ -4,7 +4,7 @@ export function Origin() {
   return (
     <section id="origin" className="bg-paper py-14 lg:py-20 px-6">
       <div className="max-w-lg lg:max-w-2xl mx-auto">
-        <div className="text-center mb-12 lg:mb-16">
+        <div className="text-center mb-10 lg:mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             원산지
           </p>

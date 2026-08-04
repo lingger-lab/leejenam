@@ -4,7 +4,7 @@ export function FounderLetter() {
   return (
     <section id="founder" className="bg-paper py-14 lg:py-20 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto">
-        <p className="font-batang text-soft text-sm tracking-widest mb-12 lg:mb-16">
+        <p className="font-batang text-soft text-sm tracking-widest mb-10 lg:mb-14">
           편지
         </p>
 

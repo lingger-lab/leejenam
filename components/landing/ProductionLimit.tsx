@@ -2,7 +2,7 @@ export function ProductionLimit() {
   return (
     <section id="limit" className="bg-ink py-14 lg:py-20 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto text-center">
-        <p className="font-batang text-paper/60 text-sm tracking-widest mb-12 lg:mb-16">
+        <p className="font-batang text-paper/60 text-sm tracking-widest mb-10 lg:mb-14">
           한계
         </p>
         <h2 className="font-batang font-bold text-2xl lg:text-5xl text-paper tracking-[-0.01em] leading-snug mb-8">

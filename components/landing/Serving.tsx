@@ -25,7 +25,7 @@ export function Serving() {
   return (
     <section id="serving" className="bg-paper-2 py-14 lg:py-20 px-6">
       <div className="max-w-lg lg:max-w-3xl mx-auto">
-        <div className="text-center mb-12 lg:mb-16">
+        <div className="text-center mb-10 lg:mb-14">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             마시는 법
           </p>
