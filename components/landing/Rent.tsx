@@ -4,7 +4,7 @@ export function Rent() {
   return (
     <section id="facility" className="bg-white-2 py-12 lg:py-16 px-6">
       <div className="max-w-md lg:max-w-lg mx-auto">
-        <div className="text-center mb-10 lg:mb-14">
+        <div className="text-center mb-8 lg:mb-12">
           <p className="font-batang text-soft text-sm tracking-widest mb-3">
             제조 시설
           </p>

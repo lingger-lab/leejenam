@@ -2,7 +2,7 @@ export function Spec() {
   return (
     <section id="spec" className="bg-paper-2 py-12 lg:py-16 px-6">
       <div className="max-w-lg lg:max-w-2xl mx-auto">
-        <p className="font-batang text-soft text-sm tracking-widest mb-10 lg:mb-14 text-center">
+        <p className="font-batang text-soft text-sm tracking-widest mb-8 lg:mb-12 text-center">
           제품 정보
         </p>
 
