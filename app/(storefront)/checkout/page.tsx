@@ -4,11 +4,12 @@ import { Suspense, useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { PRODUCTS, type ProductId } from '@/lib/products';
-import { PRICE, SHIPPING_FEE } from '@/lib/config';
+import { PRICE, SHIPPING_FEE, isGhost } from '@/lib/config';
 import { validatePhone, validateEngraveName } from '@/lib/validators';
 import { track } from '@/lib/events';
 import { pixelTrack, pixelTrackCustom } from '@/lib/pixel';
 import { getStoredName } from '@/lib/name';
+import { PhoneLink } from '@/components/PhoneLink';
 
 /* ---------- Suspense wrapper ---------- */
 
@@ -104,6 +105,7 @@ function CheckoutPage() {
 
   const subtotal = orderItems.reduce((sum, item) => sum + item.price, 0);
   const total = subtotal + (orderItems.length > 0 ? SHIPPING_FEE : 0);
+  const ghost = isGhost();
 
   /* 마운트: 저장된 이름 기입 + 쿼리 파라미터 처리 */
   useEffect(() => {
@@ -231,10 +233,10 @@ function CheckoutPage() {
 
   /* ---------- 검증 + 제출 ---------- */
 
-  const validate = (): FormErrors => {
+  const validate = (items: OrderItem[]): FormErrors => {
     const errs: FormErrors = {};
 
-    if (orderItems.length === 0) {
+    if (items.length === 0) {
       errs.items = '주문할 청을 선택해주세요.';
     }
 
@@ -247,7 +249,8 @@ function CheckoutPage() {
       errs.phone = phoneResult.error;
     }
 
-    if (!form.zipcode.trim() || !form.address1.trim()) {
+    // 고스트(사전예약)에선 주소를 받지 않는다 — 첫 회차 담글 때 전화로 확인
+    if (!ghost && (!form.zipcode.trim() || !form.address1.trim())) {
       errs.zipcode = '배송지 주소를 입력해주세요.';
     }
 
@@ -257,7 +260,37 @@ function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const errs = validate();
+    // "추가"를 누르지 않고 이름만 입력한 경우, 유효한 이름을 자동으로 담는다
+    let items = orderItems;
+    if (items.length === 0) {
+      const auto: OrderItem[] = [];
+      (Object.keys(nameInputs) as ProductId[]).forEach((id) => {
+        const name = nameInputs[id].trim();
+        if (validateEngraveName(name).ok) {
+          const product = PRODUCTS.find((p) => p.id === id)!;
+          auto.push({
+            id: crypto.randomUUID(),
+            productId: id,
+            productName: product.name,
+            engraveName: name,
+            price: PRICE,
+          });
+        }
+      });
+      if (auto.length > 0) {
+        items = auto;
+        setOrderItems(auto);
+        auto.forEach((item) =>
+          track('add_to_cart', {
+            product_id: item.productId,
+            engrave_name: item.engraveName,
+            source: 'auto',
+          }),
+        );
+      }
+    }
+
+    const errs = validate(items);
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
       scrollToFirstError(errs);
@@ -272,7 +305,7 @@ function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: orderItems.map((item) => ({
+          items: items.map((item) => ({
             product_id: item.productId,
             engrave_name: item.engraveName,
             unit_price: item.price,
@@ -307,6 +340,14 @@ function CheckoutPage() {
 
   const allErrorMessages = Object.values(errors).filter(Boolean) as string[];
 
+  const submitLabel = submitting
+    ? '접수 중...'
+    : ghost
+      ? '사전 예약하기 · 결제 없음'
+      : orderItems.length > 0
+        ? `주문하기 · ${total.toLocaleString()}원`
+        : '주문하기';
+
   /* ---------- 렌더 ---------- */
   return (
     <div className="bg-paper min-h-screen px-6 py-10">
@@ -318,14 +359,26 @@ function CheckoutPage() {
           이름을 새겨 보내드립니다
         </h1>
         <p className="text-center font-plex text-sm text-soft">
-          {PRICE.toLocaleString()}원 · 500ml · 주문 후 3~4일
+          {PRICE.toLocaleString()}원 · 500ml ·{' '}
+          {ghost ? '지금은 사전 예약 · 결제 없음' : '주문 후 3~4일'}
         </p>
-        <p className="text-center font-plex text-sm text-soft mt-2 mb-12">
+        <p className={`text-center font-plex text-sm text-soft mt-2 ${ghost ? 'mb-8' : 'mb-12'}`}>
           편하게 전화로 주문하세요{' '}
-          <a href="tel:010-8339-5585" className="text-seal font-medium hover:underline">
+          <PhoneLink location="checkout" className="text-seal font-medium hover:underline">
             010-8339-5585
-          </a>
+          </PhoneLink>
         </p>
+
+        {ghost && (
+          <div className="border border-rule bg-white-2/60 p-4 mb-12 text-center">
+            <p className="font-plex text-sm text-ink leading-relaxed">
+              아직 담그기 전입니다. 원하는 분을 먼저 모읍니다.
+              <br />
+              <strong className="text-seal">결제는 없습니다.</strong> 첫 회차를 담글 때
+              가장 먼저 연락드립니다.
+            </p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {/* ── 1. 상품 선택 ── */}
@@ -489,44 +542,47 @@ function CheckoutPage() {
               />
             </Field>
 
-            <Field label="주소" error={errors.zipcode}>
-              <div ref={addressRef} className="flex gap-2 mb-2">
+            {/* 고스트(사전예약)에선 주소를 받지 않는다 — 첫 회차 담글 때 전화로 확인 */}
+            {!ghost && (
+              <Field label="주소" error={errors.zipcode}>
+                <div ref={addressRef} className="flex gap-2 mb-2">
+                  <input
+                    type="text"
+                    value={form.zipcode}
+                    readOnly
+                    placeholder="우편번호"
+                    className={`${inputClass} flex-1 bg-white-2 cursor-pointer`}
+                    onClick={openPostcode}
+                  />
+                  <button
+                    type="button"
+                    onClick={openPostcode}
+                    className="flex-shrink-0 px-4 py-3 bg-ink text-paper
+                               font-plex text-sm font-medium
+                               hover:bg-seal active:bg-seal transition-colors"
+                    style={{ touchAction: 'manipulation' }}
+                  >
+                    주소 검색
+                  </button>
+                </div>
                 <input
                   type="text"
-                  value={form.zipcode}
+                  value={form.address1}
                   readOnly
-                  placeholder="우편번호"
-                  className={`${inputClass} flex-1 bg-white-2 cursor-pointer`}
+                  placeholder="기본주소"
+                  className={`${inputClass} mb-2 bg-white-2 cursor-pointer`}
                   onClick={openPostcode}
                 />
-                <button
-                  type="button"
-                  onClick={openPostcode}
-                  className="flex-shrink-0 px-4 py-3 bg-ink text-paper
-                             font-plex text-sm font-medium
-                             hover:bg-seal active:bg-seal transition-colors"
-                  style={{ touchAction: 'manipulation' }}
-                >
-                  주소 검색
-                </button>
-              </div>
-              <input
-                type="text"
-                value={form.address1}
-                readOnly
-                placeholder="기본주소"
-                className={`${inputClass} mb-2 bg-white-2 cursor-pointer`}
-                onClick={openPostcode}
-              />
-              <input
-                ref={address2Ref}
-                type="text"
-                value={form.address2}
-                onChange={(e) => updateField('address2', e.target.value)}
-                placeholder="상세주소 (동/호수)"
-                className={inputClass}
-              />
-            </Field>
+                <input
+                  ref={address2Ref}
+                  type="text"
+                  value={form.address2}
+                  onChange={(e) => updateField('address2', e.target.value)}
+                  placeholder="상세주소 (동/호수)"
+                  className={inputClass}
+                />
+              </Field>
+            )}
 
             <Field label="배송 메모">
               <input
@@ -641,11 +697,7 @@ function CheckoutPage() {
                        active:bg-seal hover:bg-seal transition-colors
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {submitting
-              ? '접수 중...'
-              : orderItems.length > 0
-                ? `주문하기 · ${total.toLocaleString()}원`
-                : '주문하기'}
+            {submitLabel}
           </button>
 
           <p className="text-center mt-4 pb-6">
@@ -670,9 +722,7 @@ function CheckoutPage() {
                            active:bg-seal hover:bg-seal transition-colors
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting
-                  ? '접수 중...'
-                  : `주문하기 · ${total.toLocaleString()}원`}
+                {submitLabel}
               </button>
             </div>
           )}

@@ -14,7 +14,7 @@ declare global {
 }
 
 /** Meta 표준 이벤트 */
-type StandardEvent = 'PageView' | 'InitiateCheckout' | 'Lead';
+type StandardEvent = 'PageView' | 'InitiateCheckout' | 'Lead' | 'Contact';
 
 export function pixelTrack(
   event: StandardEvent,

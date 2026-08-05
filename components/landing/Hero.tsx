@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { getStoredName } from '@/lib/name';
+import { PhoneLink } from '@/components/PhoneLink';
 
 const slides = [
   {
@@ -152,12 +153,12 @@ export function Hero() {
         <p className="mt-4 font-plex text-sm text-soft">
           또는 전화 한 통이면 됩니다
         </p>
-        <a
-          href="tel:010-8339-5585"
+        <PhoneLink
+          location="hero"
           className="font-plex text-base text-seal font-medium hover:underline"
         >
           010-8339-5585
-        </a>
+        </PhoneLink>
       </div>
     </section>
   );

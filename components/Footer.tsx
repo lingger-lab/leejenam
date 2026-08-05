@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PhoneLink } from './PhoneLink';
 
 export function Footer() {
   return (
@@ -40,13 +41,13 @@ export function Footer() {
         <p className="font-plex text-sm text-paper/70 leading-relaxed mb-2">
           온라인이 불편하시면, 전화로 주문하셔도 됩니다.
         </p>
-        <a
-          href="tel:010-8339-5585"
+        <PhoneLink
+          location="footer"
           className="inline-block font-plex text-base text-gold font-medium
                      hover:underline underline-offset-2"
         >
           010-8339-5585
-        </a>
+        </PhoneLink>
         <p className="font-plex text-sm text-paper/70 mt-2 tabular-nums">
           농협 947-02-126434 예금주 이제남
         </p>
@@ -60,9 +61,9 @@ export function Footer() {
           <p>사업자등록번호 587-87-03728</p>
           <p>경상남도 창원시 마산합포구 구산면 옥곡1길 77</p>
           <p>
-            <a href="tel:010-8339-5585" className="hover:text-paper/70 transition-colors">
+            <PhoneLink location="footer_biz" className="hover:text-paper/70 transition-colors">
               010-8339-5585
-            </a>
+            </PhoneLink>
           </p>
         </div>
       </div>

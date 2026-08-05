@@ -24,6 +24,7 @@ export type EventType =
   | 'subscribe_intent'
   | 'sms_consent'
   | 'survey_answer'
+  | 'phone_click'
   | 'ghost_message_view';
 
 export async function track(

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PRODUCTS } from '@/lib/products';
 import { PRICE } from '@/lib/config';
+import { PhoneLink } from '@/components/PhoneLink';
 
 function FlipCard({
   src,
@@ -149,12 +150,12 @@ export function Shop() {
         <p className="mt-6 text-center font-plex text-sm text-soft leading-relaxed">
           온라인이 불편하시면, 전화로 주문하셔도 됩니다.
           <br />
-          <a
-            href="tel:010-8339-5585"
+          <PhoneLink
+            location="shop"
             className="text-seal text-base font-medium hover:underline"
           >
             010-8339-5585
-          </a>
+          </PhoneLink>
           <br />
           <span className="text-sm text-soft">
             농협 947-02-126434 예금주 이제남
