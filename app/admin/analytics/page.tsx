@@ -184,12 +184,13 @@ export default async function AnalyticsPage() {
 }
 
 function FunnelChart({ funnel }: { funnel: Record<string, number> }) {
+  // 실제 흐름 순서: /checkout 진입(checkout_start)이 "추가" 클릭(add_to_cart)보다 먼저 발생
   const steps = [
     { key: 'step1_visit', label: '방문' },
     { key: 'step2_name_start', label: '이름 입력' },
     { key: 'step3_name_complete', label: '이름 완료' },
-    { key: 'step4_add_cart', label: '장바구니' },
-    { key: 'step5_checkout', label: '주문서' },
+    { key: 'step5_checkout', label: '주문서 진입' },
+    { key: 'step4_add_cart', label: '장바구니 담기' },
     { key: 'step6_order', label: '주문 완료' },
   ];
 

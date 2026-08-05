@@ -11,6 +11,7 @@ export function NameGate() {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const startedRef = useRef(false);
 
   useEffect(() => {
     const stored = getStoredName();
@@ -69,8 +70,14 @@ export function NameGate() {
           type="text"
           value={name}
           onChange={(e) => {
-            if (e.target.value.length <= 10) {
-              setName(e.target.value);
+            const value = e.target.value;
+            if (value.length <= 10) {
+              // 첫 글자 입력 시 이름 입력 시작 1회 기록 (퍼널 step2)
+              if (!startedRef.current && value.trim().length > 0) {
+                startedRef.current = true;
+                track('name_input_start', { source: 'gate' });
+              }
+              setName(value);
               setError('');
             }
           }}
