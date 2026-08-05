@@ -1,7 +1,9 @@
 export type PaymentMode = 'ghost' | 'live';
 
+// 환경변수 값에 공백/줄바꿈이 섞여 들어오는 경우가 있어 trim 후 비교한다
+// (예: Vercel에 "ghost\n"으로 저장되면 === 'ghost' 비교가 실패)
 export const PAYMENT_MODE: PaymentMode =
-  (process.env.NEXT_PUBLIC_PAYMENT_MODE as PaymentMode) ?? 'ghost';
+  ((process.env.NEXT_PUBLIC_PAYMENT_MODE?.trim() || 'ghost') as PaymentMode);
 
 export const isGhost = () => PAYMENT_MODE === 'ghost';
 export const isLive = () => PAYMENT_MODE === 'live';
