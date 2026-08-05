@@ -343,7 +343,7 @@ function CheckoutPage() {
   const submitLabel = submitting
     ? '접수 중...'
     : ghost
-      ? '사전 예약하기 · 결제 없음'
+      ? '주문 접수하기'
       : orderItems.length > 0
         ? `주문하기 · ${total.toLocaleString()}원`
         : '주문하기';
@@ -360,7 +360,7 @@ function CheckoutPage() {
         </h1>
         <p className="text-center font-plex text-sm text-soft">
           {PRICE.toLocaleString()}원 · 500ml ·{' '}
-          {ghost ? '지금은 사전 예약 · 결제 없음' : '주문 후 3~4일'}
+          {ghost ? '주문 후 결제 안내드립니다' : '주문 후 3~4일'}
         </p>
         <p className={`text-center font-plex text-sm text-soft mt-2 ${ghost ? 'mb-8' : 'mb-12'}`}>
           편하게 전화로 주문하세요{' '}
@@ -372,10 +372,11 @@ function CheckoutPage() {
         {ghost && (
           <div className="border border-rule bg-white-2/60 p-4 mb-12 text-center">
             <p className="font-plex text-sm text-ink leading-relaxed">
-              아직 담그기 전입니다. 원하는 분을 먼저 모읍니다.
+              주문해 주시면 <strong className="text-seal">결제 안내를 위해 먼저 연락드립니다.</strong>
               <br />
-              <strong className="text-seal">결제는 없습니다.</strong> 첫 회차를 담글 때
-              가장 먼저 연락드립니다.
+              확인되면 그날 제철 과일로 정성껏 담그기 시작하고,
+              <br />
+              작업 2일차에 진행 상황과 배송 일정을 문자로 보내드립니다.
             </p>
           </div>
         )}

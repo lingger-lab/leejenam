@@ -37,13 +37,11 @@ export function GhostMessage({ engraveNames }: Props) {
       </div>
 
       <div className="bg-ink text-paper p-5 mt-7 text-sm leading-loose rounded">
-        <strong>지금부터 담그기 시작합니다.</strong>
+        <strong>곧 결제 안내를 위해 연락드립니다.</strong>
         <br />
-        작업 <strong>2일차에 담근 사진과 함께
+        확인되면 그날 제철 과일로 담그기 시작하고,
         <br />
-        배송 일정을 문자로 알려드립니다.</strong>
-        <br />
-        조금만 기다려 주세요. 정성껏 준비하겠습니다.
+        작업 <strong>2일차에 진행 상황과 일정을 문자로</strong> 보내드립니다.
       </div>
 
       {engraveNames.length > 0 && (
