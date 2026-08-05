@@ -13,45 +13,37 @@ export function GhostMessage({ engraveNames }: Props) {
   return (
     <div className="bg-paper max-w-lg mx-auto px-8 py-12">
       <h1 className="font-batang font-bold text-2xl mb-7 leading-relaxed text-ink">
-        솔직히 말씀드리겠습니다.
+        예약이 접수되었습니다.
       </h1>
 
       <p className="font-batang font-bold text-3xl text-seal my-7 leading-snug">
-        아직 만들지 않았습니다.
+        이제, 이 이름으로 담급니다.
       </p>
 
       <div className="font-plex text-base text-ink leading-loose space-y-5">
         <p>
-          재고가 없어서가 아닙니다.
+          이제남의 과일청은 미리 만들어 쌓아두지 않습니다.
           <br />
-          <strong>아직 한 병도 담그지 않았습니다.</strong>
+          주문을 받은 뒤, <strong>그날 들어온 제철 과일로 한 병씩 담급니다.</strong>
         </p>
 
         <p>
-          이 청을 정말 원하는 분이 계신지
+          미리 만든 청과는 신선함이 다릅니다.
           <br />
-          먼저 확인하고 싶었습니다.
+          그래서 조금 기다리셔야 하지만, 그만큼 정성껏 담가
           <br />
-          그래서 페이지부터 만들었습니다.
-        </p>
-
-        <p>
-          주문해주셨다는 건,
-          <br />
-          원하신다는 뜻으로 알겠습니다.
+          <strong>이름을 손으로 새겨</strong> 보내드립니다.
         </p>
       </div>
 
       <div className="bg-ink text-paper p-5 mt-7 text-sm leading-loose rounded">
-        <strong>
-          첫 회차를 담글 때
-          <br />
-          가장 먼저 연락드리겠습니다.
-        </strong>
+        <strong>지금부터 담그기 시작합니다.</strong>
         <br />
-        그때 이 이름을 새겨서 보내드리겠습니다.
+        작업 <strong>2일차에 담근 사진과 함께
         <br />
-        만들지 못하게 되면, 그것도 알려드리겠습니다.
+        배송 일정을 문자로 알려드립니다.</strong>
+        <br />
+        조금만 기다려 주세요. 정성껏 준비하겠습니다.
       </div>
 
       {engraveNames.length > 0 && (
